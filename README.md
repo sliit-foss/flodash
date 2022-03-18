@@ -1,4 +1,4 @@
-# enhanced-http-
+# enhanced-http
 An enhanced version of the dart http package based on an axios like structure
 
 <!-- 
