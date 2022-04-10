@@ -109,7 +109,7 @@ final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
 );
 ```
 
-The file attribute on the http post and http put methods can be used to send a file to the server with the key 'file'
+The files attribute on the http post and http put methods can be used to send files to the server
 
 ```dart
 final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
@@ -117,7 +117,12 @@ final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
         "data": "This is some sample data to update at a server"
     },
     formData: true,
-    file: File("path_to_file"),
+    files: [
+        {
+            "array_key": "file",
+            "file": File("path_to_file")
+        }
+    ],
     onSuccess: () => {
         print("File sent successfully");
     }

@@ -32,12 +32,12 @@ class EnhancedHttp {
     }
   }
 
-  static Future<dynamic> post({required String path, required int successStatusCode, dynamic payload, dynamic onSuccess, bool formData = false, dynamic file}) async {
+  static Future<dynamic> post({required String path, required int successStatusCode, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
     try {
       final url = Uri.parse('$_baseURL$path');
       return await apiCall(() async {
         if (formData) {
-          return await multipartRequest('POST', url, payload, file);
+          return await multipartRequest('POST', url, payload, files);
         } else {
           return await http.post(
             url,
@@ -51,12 +51,12 @@ class EnhancedHttp {
     }
   }
 
-  static Future<dynamic> put({required String path, required int successStatusCode, dynamic payload, dynamic onSuccess, bool formData = false, dynamic file}) async {
+  static Future<dynamic> put({required String path, required int successStatusCode, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
     try {
       final url = Uri.parse('$_baseURL$path');
       return await apiCall(() async {
         if (formData) {
-          return await multipartRequest('PUT', url, payload, file);
+          return await multipartRequest('PUT', url, payload, files);
         } else {
           return await http.put(
             url,
@@ -105,18 +105,20 @@ class EnhancedHttp {
     }
   }
 
-  static multipartRequest(requestType, url, payload, file) async {
+  static multipartRequest(requestType, url, payload, files) async {
     final request = http.MultipartRequest(requestType, url);
     dynamic headers = _headers;
     headers["Content-Type"] = "multipart/form-data";
     request.headers.addAll(headers);
     request.fields.addAll(Map<String, String>.from(payload));
-    if (file != null) {
-      request.files.add(await http.MultipartFile.fromPath(
-        'file',
-        file.path,
-        contentType: new MediaType("image", p.extension(file.path)),
-      ));
+    if (files != null) {
+      for (dynamic file in files) {
+        request.files.add(await http.MultipartFile.fromPath(
+          file['array_key'],
+          file['file'].path,
+          contentType: MediaType("image", p.extension(file['file'].path)),
+        ));
+      }
     }
     dynamic streamedResponse = await request.send();
     return await http.Response.fromStream(streamedResponse);
