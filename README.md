@@ -123,9 +123,10 @@ final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
     }
 );
 ```
-```
 
 ## Credits
+
+
 
 Based on the original dart http package by Google (https://pub.dev/packages/http)
 
