@@ -1,45 +1,131 @@
 # enhanced-http
-An enhanced version of the dart http package based on an axios like structure
-
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+An enhanced version of the dart http package based on axios
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+
+
+Initialize enahanced http as follows : 
+
+```dart
+EnhancedHttp.initialize(baseURL: 'https://dog.ceo/api');
+```
+
+Custom headers can be provided through the name parameter 'headers' ( Default content type is specified as application/json ) : 
+
+```dart
+EnhancedHttp.initialize(
+    baseURL: Constants.apiBaseURL,
+    headers: {'Authorization': "Bearer $token"},
+);
+```
+
+A default error message can be provided to return in case of unexpected errors : 
+
+```dart
+EnhancedHttp.initialize(
+    baseURL: Constants.apiBaseURL,
+    defaultErrorMessage: "An error has occurred please try again later"
+);
+```
+
+Provide a function which can isolate and return an error from the response format of your server : 
+
+```dart
+convertAndNotifyError(dynamic errorResponse){
+  if (errorResponse['error'].runtimeType == String)
+    return errorResponse['error'];
+  if (errorResponse['error'].runtimeType == [].runtimeType){
+    String firstKey = '';
+    errorResponse['error'].forEach((key, value) {
+      if (firstKey == '') firstKey = key;
+    });
+    return errorResponse['message'][firstKey]['error'];
+  }
+  return "An error has occurred please try again later";
+}
+
+EnhancedHttp.initialize(
+    baseURL: Constants.apiBaseURL,
+    errorTransformer: convertAndNotifyError
+);
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+
+
+Fetch data from an api endpoint - GET
 
 ```dart
-const like = 'sample';
+final res = await EnhancedHttp.get(path: "/path", successStatusCode: 200);
 ```
 
-## Additional information
+Send data to an api endpoint - POST
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200, {
+    "data": "This is some sample data to send to a server"
+});
+```
+
+Update data at an api endpoint - PUT
+
+```dart
+final res = await EnhancedHttp.put(path: "/path", successStatusCode: 200, {
+    "data": "This is some sample data to update at a server"
+});
+```
+
+Delete data at an api endpoint - DELETE
+
+```dart
+final res = await EnhancedHttp.delete(path: "/path", successStatusCode: 200);
+```
+
+## Additional Parameters
+
+
+
+All requests can take in a function which executes if the response status code matches the provided successStatusCode
+
+```dart
+final res = await EnhancedHttp.get(path: "/path", successStatusCode: 200, onSuccess: () => {
+    print("Data fetched from server successfully");
+});
+```
+
+Specify the 'formData' attribute as true if the request payload needs to be in the form of multipart/form-data
+
+```dart
+final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
+    payload: {
+        "data": "This is some sample data to update at a server"
+    },
+    formData: true,
+    onSuccess: () => {
+        print("Multipart request sent successfully");
+    }
+);
+```
+
+The file attribute on the http post and http put methods can be used to send a file to the server with the key 'file'
+
+```dart
+final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
+    payload: {
+        "data": "This is some sample data to update at a server"
+    },
+    formData: true,
+    file: File("path_to_file"),
+    onSuccess: () => {
+        print("File sent successfully");
+    }
+);
+```
+```
+
+## Credits
 
 Based on the original dart http package by Google (https://pub.dev/packages/http)
 
