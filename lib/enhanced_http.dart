@@ -14,7 +14,7 @@ class EnhancedHttp {
 
   static void initialize({ required String baseURL, Map<String,String>? headers, Function? errorTransformer, String? defaultErrorMessage }) async {
     _baseURL = baseURL;
-    _headers = headers ?? {};
+    _headers = headers ?? {'Content-Type': "application/json"};
     _errorTransformer = errorTransformer;
     _defaultErrorMessage = defaultErrorMessage;
   }
