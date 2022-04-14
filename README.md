@@ -1,4 +1,4 @@
-# enchanced_cloud_firestore
+# enhanced_cloud_firestore
 An enhanced version of the cloud firestore dart package with support for filtering sorting, limiting, error handling, and success scenarios
 
 <!-- 
