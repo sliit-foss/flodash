@@ -1,6 +1,7 @@
 library enhanced_cloud_firestore;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enhanced_cloud_firestore/enums/firestore_filter.dart';
 
 class EnhancedFirestore {
   static Future<dynamic> read({required String collection, List<dynamic>? filters, List<dynamic>? sorts, int? limit, Function? onSuccess, Function? onError}) async {
@@ -78,10 +79,32 @@ class EnhancedFirestore {
   static dynamic _filteredCollectionRef({required String collection, required List<dynamic> filters, required List<dynamic> sorts}) {
     dynamic collectionRef = FirebaseFirestore.instance.collection(collection);
     filters.forEach((filter) {
-      collectionRef = collectionRef.where(filter['name'], isEqualTo: filter['value']);
+      if (filter['filter'] == FirestoreFilter.isEqualTo) {
+        collectionRef = collectionRef.where(filter['field'], isEqualTo: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.isNotEqualTo) {
+        collectionRef = collectionRef.where(filter['field'], isNotEqualTo: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.isGreaterThan) {
+        collectionRef = collectionRef.where(filter['field'], isGreaterThan: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.isLessThan) {
+        collectionRef = collectionRef.where(filter['field'], isLessThan: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.isGreaterThanOrEqualTo) {
+        collectionRef = collectionRef.where(filter['field'], isGreaterThanOrEqualTo: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.isLessThanOrEqualTo) {
+        collectionRef = collectionRef.where(filter['field'], isLessThanOrEqualTo: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.arrayContains) {
+        collectionRef = collectionRef.where(filter['field'], arrayContains: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.arrayContainsAny) {
+        collectionRef = collectionRef.where(filter['field'], arrayContainsAny: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.whereIn) {
+        collectionRef = collectionRef.where(filter['field'], whereIn: filter['value']);
+      } else if (filter['filter'] == FirestoreFilter.whereNotIn) {
+        collectionRef = collectionRef.where(filter['field'], whereNotIn: filter['value']);
+      } else {
+        throw Exception('Invalid filter');
+      }
     });
     sorts.forEach((sort) {
-      collectionRef = collectionRef.orderBy(sort['name'], descending: sort['descending']);
+      collectionRef = collectionRef.orderBy(sort['field'], descending: sort['descending']);
     });
     return collectionRef;
   }
