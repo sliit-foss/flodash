@@ -42,19 +42,28 @@ class EnhancedFirestore {
     return res;
   }
 
-  static Future<dynamic> delete({required String collection, List<dynamic>? filters}) async {
+  static Future<dynamic> delete({required String collection, List<dynamic>? filters, bool truncateFully = false}) async {
     filters ??= [];
     dynamic res = "Data deleted successfully";
-    dynamic collectionRef = _filteredCollectionRef(collection: collection, filters: filters, sorts: []);
-    await collectionRef.get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((element) {
+    if (!truncateFully) {
+      dynamic collectionRef = _filteredCollectionRef(collection: collection, filters: filters, sorts: []);
+      await collectionRef.get().then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((element) {
+          FirebaseFirestore.instance.collection(collection).doc(element.id).delete().catchError((error) {
+            res = error;
+          });
+        });
+      }).catchError((error) {
+        res = error;
+      });
+    } else {
+      List<dynamic> records = await read(collection: collection);
+      records.forEach((element) {
         FirebaseFirestore.instance.collection(collection).doc(element.id).delete().catchError((error) {
           res = error;
         });
       });
-    }).catchError((error) {
-      res = error;
-    });
+    }
     return res;
   }
 
