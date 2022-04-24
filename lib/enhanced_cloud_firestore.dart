@@ -19,11 +19,10 @@ class EnhancedFirestore {
     return limit == 1 ? (data.isNotEmpty ? data[0] : null) : data;
   }
 
-  static Future<dynamic> write({required String collection, required dynamic payload, String? successMessage, Function? onSuccess, Function? onError}) async {
+  static Future<dynamic> write({required String collection, required dynamic payload, Function? onSuccess, Function? onError}) async {
     dynamic res = "Data entered successfully";
     CollectionReference collectionRef = FirebaseFirestore.instance.collection(collection);
     await collectionRef.add(payload).then((value) {
-      if (successMessage != null) res = successMessage;
       if (onSuccess != null) onSuccess(value);
     }).catchError((error) {
       if (onError != null) onError(error);
