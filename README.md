@@ -5,7 +5,7 @@ An enhanced version of the dart http package based on axios
 
 
 
-Initialize enahanced http as follows : 
+Initialize enhanced http as follows : 
 
 ```dart
 EnhancedHttp.initialize(baseURL: 'https://dog.ceo/api');
