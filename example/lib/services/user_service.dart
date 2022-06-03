@@ -7,7 +7,11 @@ class UserService {
   }
 
   static Future<dynamic> addUser() async {
-    return await EnhancedFirestore.write(collection: 'users', payload: {'name': faker.person.name(), 'email': faker.internet.email(), 'age': faker.randomGenerator.numberOfLength(2)});
+    return await EnhancedFirestore.write(collection: 'users', payload: {
+      'name': faker.person.name(),
+      'email': faker.internet.email(),
+      'age': faker.randomGenerator.numberOfLength(2)
+    });
   }
 
   static Future<dynamic> deleteUsers() async {

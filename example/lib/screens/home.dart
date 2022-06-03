@@ -26,37 +26,38 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Expanded(
-            child: FutureBuilder(
-              future: UserService.fetchUsers(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(
-                            snapshot.data[index]['name'],
-                            style: const TextStyle(
-                              color: Colors.white,
+          children: [
+            Expanded(
+              child: FutureBuilder(
+                future: UserService.fetchUsers(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                              snapshot.data[index]['name'],
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          subtitle: Text(
-                            snapshot.data[index]['email'],
-                            style: const TextStyle(
-                              color: Colors.white,
+                            subtitle: Text(
+                              snapshot.data[index]['email'],
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        );
-                      });
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                          );
+                        });
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
             Container(
               height: 60,
               width: MediaQuery.of(context).size.width,

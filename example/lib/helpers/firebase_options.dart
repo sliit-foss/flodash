@@ -8,7 +8,7 @@ class DefaultFirebaseOptions {
     if (kIsWeb) {
       throw UnsupportedError(
         'DefaultFirebaseOptions have not been configured for web - '
-            'you can reconfigure this by running the FlutterFire CLI again.',
+        'you can reconfigure this by running the FlutterFire CLI again.',
       );
     }
     // ignore: missing_enum_constant_in_switch
@@ -20,7 +20,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
     }
 
@@ -43,8 +43,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: dotenv.env['FCM_SENDER_ID']!,
     projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
     storageBucket: dotenv.env['FIREBASE_BUCKET']!,
-    iosClientId:
-    '867257560155-2qf101m57t3anp5thggdlth3ie03hole.apps.googleusercontent.com',
-    iosBundleId: 'com.company.testapp',
+    iosClientId: dotenv.env['IOS_CLIENT_ID'],
+    iosBundleId: dotenv.env['IOS_BUNDLE_ID'],
   );
 }
