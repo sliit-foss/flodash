@@ -18,26 +18,26 @@ class EnhancedHttp {
     _defaultErrorMessage = defaultErrorMessage;
   }
 
-  static Future<dynamic> get({required String path, required int successStatusCode, dynamic onSuccess}) async {
+  static Future<dynamic> get({required String path, int expectedStatus = 200, dynamic onSuccess}) async {
     try {
       final url = Uri.parse('$_baseURL$path');
-      return await apiCall(() async {
+      return await _apiCall(() async {
         return await http.get(
           url,
           headers: _headers,
         );
-      }, successStatusCode, onSuccess);
+      }, expectedStatus, onSuccess);
     } catch (e) {
       return e;
     }
   }
 
-  static Future<dynamic> post({required String path, required int successStatusCode, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
+  static Future<dynamic> post({required String path, int expectedStatus = 200, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
     try {
       final url = Uri.parse('$_baseURL$path');
-      return await apiCall(() async {
+      return await _apiCall(() async {
         if (formData) {
-          return await multipartRequest('POST', url, payload, files);
+          return await _multipartRequest('POST', url, payload, files);
         } else {
           return await http.post(
             url,
@@ -45,18 +45,18 @@ class EnhancedHttp {
             body: payload == null ? {} : jsonEncode(payload),
           );
         }
-      }, successStatusCode, onSuccess);
+      }, expectedStatus, onSuccess);
     } catch (e) {
       return e;
     }
   }
 
-  static Future<dynamic> put({required String path, required int successStatusCode, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
+  static Future<dynamic> put({required String path, int expectedStatus = 200, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
     try {
       final url = Uri.parse('$_baseURL$path');
-      return await apiCall(() async {
+      return await _apiCall(() async {
         if (formData) {
-          return await multipartRequest('PUT', url, payload, files);
+          return await _multipartRequest('PUT', url, payload, files);
         } else {
           return await http.put(
             url,
@@ -64,31 +64,31 @@ class EnhancedHttp {
             body: payload == null ? {} : jsonEncode(payload),
           );
         }
-      }, successStatusCode, onSuccess);
+      }, expectedStatus, onSuccess);
     } catch (e) {
       return e;
     }
   }
 
-  static Future<dynamic> delete({required String path, required int successStatusCode, dynamic onSuccess}) async {
+  static Future<dynamic> delete({required String path, int expectedStatus = 200, dynamic onSuccess}) async {
     try {
       final url = Uri.parse('$_baseURL$path');
-      return await apiCall(() async {
+      return await _apiCall(() async {
         return await http.delete(
           url,
           headers: _headers,
         );
-      }, successStatusCode, onSuccess);
+      }, expectedStatus, onSuccess);
     } catch (e) {
       return e;
     }
   }
 
-  static Future<dynamic> apiCall(Function httpRequest, int successStatusCode, dynamic onSuccess) async {
+  static Future<dynamic> _apiCall(Function httpRequest, int expectedStatus, dynamic onSuccess) async {
     try {
       final response = await httpRequest();
       Map<String, dynamic> responseJson = json.decode(response.body);
-      if (response.statusCode == successStatusCode) {
+      if (response.statusCode == expectedStatus) {
         if (onSuccess != null) {
           return onSuccess();
         } else {
@@ -105,7 +105,7 @@ class EnhancedHttp {
     }
   }
 
-  static multipartRequest(requestType, url, payload, files) async {
+  static _multipartRequest(requestType, url, payload, files) async {
     final request = http.MultipartRequest(requestType, url);
     dynamic headers = _headers;
     headers["Content-Type"] = "multipart/form-data";

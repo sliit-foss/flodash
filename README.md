@@ -58,13 +58,13 @@ EnhancedHttp.initialize(
 Fetch data from an api endpoint - GET
 
 ```dart
-final res = await EnhancedHttp.get(path: "/path", successStatusCode: 200);
+final res = await EnhancedHttp.get(path: "/path");
 ```
 
 Send data to an api endpoint - POST
 
 ```dart
-final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200, {
+final res = await EnhancedHttp.post(path: "/path", {
     "data": "This is some sample data to send to a server"
 });
 ```
@@ -72,7 +72,7 @@ final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200, {
 Update data at an api endpoint - PUT
 
 ```dart
-final res = await EnhancedHttp.put(path: "/path", successStatusCode: 200, {
+final res = await EnhancedHttp.put(path: "/path", {
     "data": "This is some sample data to update at a server"
 });
 ```
@@ -80,17 +80,24 @@ final res = await EnhancedHttp.put(path: "/path", successStatusCode: 200, {
 Delete data at an api endpoint - DELETE
 
 ```dart
-final res = await EnhancedHttp.delete(path: "/path", successStatusCode: 200);
+final res = await EnhancedHttp.delete(path: "/path");
 ```
 
 ## Additional Parameters
 
-
-
-All requests can take in a function which executes if the response status code matches the provided successStatusCode
+All requests can take in the parameter expectedStatus which is the status code that is expected to be returned from the server. If the status code returned is not the same as the one provided, an error will be thrown. The default value is 200.
 
 ```dart
-final res = await EnhancedHttp.get(path: "/path", successStatusCode: 200, onSuccess: () => {
+final res = await EnhancedHttp.get(path: "/path", expectedStatus: 200, onSuccess: () => {
+    print("Data fetched from server successfully");
+});
+```
+
+
+All requests can take in a function which executes if the response http status code matches the provided or default expectedStatus
+
+```dart
+final res = await EnhancedHttp.get(path: "/path", expectedStatus: 200, onSuccess: () => {
     print("Data fetched from server successfully");
 });
 ```
@@ -98,7 +105,7 @@ final res = await EnhancedHttp.get(path: "/path", successStatusCode: 200, onSucc
 Specify the 'formData' attribute as true if the request payload needs to be in the form of multipart/form-data
 
 ```dart
-final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
+final res = await EnhancedHttp.post(path: "/path", expectedStatus: 200,
     payload: {
         "data": "This is some sample data to update at a server"
     },
@@ -112,7 +119,7 @@ final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
 The files attribute on the http post and http put methods can be used to send files to the server
 
 ```dart
-final res = await EnhancedHttp.post(path: "/path", successStatusCode: 200,
+final res = await EnhancedHttp.post(path: "/path", expectedStatus: 200,
     payload: {
         "data": "This is some sample data to update at a server"
     },
