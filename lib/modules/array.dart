@@ -32,23 +32,28 @@ final concat = VarargsFunction((arguments) {
 final difference = VarargsFunction((arguments) {
   List subList = flatten(arguments.sublist(1));
   return arguments[0].where((e) {
-    if (e is List)
+    if (e is List) {
       return subList
           .whereType<List>()
           .where((l) => listEquals(e, l))
           .toList()
           .isEmpty;
-    if (e is Map)
+    }
+    if (e is Map) {
       return subList
           .whereType<Map>()
           .where((m) => mapEquals(e, m))
           .toList()
           .isEmpty;
+    }
     return !subList.contains(e);
   }).toList();
 }) as dynamic;
 
-List flatten(Iterable<dynamic> list) => [for (var sublist in list) ...sublist];
+List flatten(Iterable<dynamic> list) => [
+      for (var element in list)
+        if (element is! Iterable) element else ...element
+    ];
 
 List flattenDeep(Iterable<dynamic> list) => [
       for (var element in list)
