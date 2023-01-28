@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flodash/utils/varargs.dart';
 
 List chunk(List list, {int size = 1}) {
@@ -27,3 +28,29 @@ final concat = VarargsFunction((arguments) {
     return acc;
   });
 }) as dynamic;
+
+final difference = VarargsFunction((arguments) {
+  List subList = flatten(arguments.sublist(1));
+  return arguments[0].where((e) {
+    if (e is List)
+      return subList
+          .whereType<List>()
+          .where((l) => listEquals(e, l))
+          .toList()
+          .isEmpty;
+    if (e is Map)
+      return subList
+          .whereType<Map>()
+          .where((m) => mapEquals(e, m))
+          .toList()
+          .isEmpty;
+    return !subList.contains(e);
+  }).toList();
+}) as dynamic;
+
+List flatten(Iterable<dynamic> list) => [for (var sublist in list) ...sublist];
+
+List flattenDeep(Iterable<dynamic> list) => [
+      for (var element in list)
+        if (element is! Iterable) element else ...flattenDeep(element),
+    ];

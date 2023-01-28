@@ -44,7 +44,7 @@ runTests() {
             [4]
           ]));
     });
-    test('nested-lists-1', () {
+    test('nested-lists-2', () {
       expect(
           flodash.concat(1, [
             2,
@@ -61,6 +61,75 @@ runTests() {
             5,
             [3],
             [4, 4, 3]
+          ]));
+    });
+  });
+  group('difference', () {
+    test('simple', () {
+      expect(flodash.difference([2, 1], [2, 3]), equals([1]));
+    });
+    test('nested-lists', () {
+      expect(
+          flodash.difference([
+            2,
+            1,
+            [2, 3]
+          ], [
+            [2, 3]
+          ]),
+          equals([2, 1]));
+    });
+    test('nested-lists-2', () {
+      expect(
+          flodash.difference([
+            2,
+            1,
+            [2, 3]
+          ], [
+            [2, 3],
+            2
+          ]),
+          equals([1]));
+    });
+    test('maps-1', () {
+      expect(
+          flodash.difference([
+            {"a": 1},
+            {"b": 2}
+          ], [
+            {"a": 1}
+          ]),
+          equals([
+            {"b": 2}
+          ]));
+    });
+    test('maps-2', () {
+      expect(
+          flodash.difference([
+            {"a": 1},
+            {"b": 2}
+          ], [
+            {"a": 1},
+            {"b": 2}
+          ]),
+          equals([]));
+    });
+    test('mixed-types', () {
+      expect(
+          flodash.difference([
+            2,
+            1,
+            [2, 3],
+            {"a": 1},
+            {"b": 2}
+          ], [
+            [2, 3],
+            2,
+            {"a": 1}
+          ]),
+          equals([
+            1,
+            {"b": 2}
           ]));
     });
   });
