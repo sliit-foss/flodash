@@ -2,6 +2,8 @@ import 'package:flodash/flodash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flodash/utils/varargs.dart';
 
+import '../utils/array.dart';
+
 List chunk(List list, {int size = 1}) {
   List chunks = [];
   for (int i = 0; i < list.length; i += size) {
@@ -69,18 +71,20 @@ List dropRight(List list, {int n = 1}) => list.sublist(0, list.length - n);
 
 List dropRightWhile(List list, dynamic predicate) {
   for (int i = list.length - 1; i >= 0; i--) {
-    if ((predicate is Function && predicate(list[i])) ||
-        ((list[i] is Map &&
-                predicate is String &&
-                isTruthy(list[i][predicate])) ||
-            (predicate is Map &&
-                list[i] is Map &&
-                mapEquals(predicate, list[i]))) ||
-        (predicate is List &&
-            list[i] is List &&
-            listEquals(predicate, list[i])) ||
-        (predicate == list[i])) {
+    if (dropWhileConditions(predicate, list[i])) {
       list.removeAt(i);
+    } else {
+      break;
+    }
+  }
+  return list;
+}
+
+List dropWhile(List list, dynamic predicate) {
+  for (int i = 0; i < list.length; i++) {
+    if (dropWhileConditions(predicate, list[i])) {
+      list.removeAt(i);
+      i--;
     } else {
       break;
     }
