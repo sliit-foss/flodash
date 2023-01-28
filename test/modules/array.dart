@@ -76,11 +76,17 @@ runTests() {
       );
     });
   });
-  group('difference-by', () {
+  group('difference-with', () {
     test('iterator-function', () {
       expect(
-          flodash.differenceBy([2.1, 1.2], [2.3, 3.4], (n) => n.floor()),
+          flodash.differenceWith([2.1, 1.2], [2.3, 3.4], (n) => n.floor()),
           equals([1.2])
+      );
+    });
+    test('property', () {
+      expect(
+          flodash.differenceWith([{"x": 2}, {"x": 1}], [{"x": 1}], "x"),
+          equals([{"x": 2}])
       );
     });
   });
