@@ -50,12 +50,18 @@ final difference = VarargsFunction((arguments) {
   }).toList();
 }) as dynamic;
 
-final differenceBy = VarargsFunction((arguments) {
+final differenceWith = VarargsFunction((arguments) {
   List argumentClone = [...arguments];
-  Function iteratee = argumentClone.removeLast();
+  dynamic iteratee = argumentClone.removeLast();
   List subList = flatten(argumentClone.sublist(1));
   return arguments[0].where((e) {
-    return subList.where((l) => iteratee(e) == iteratee(l)).toList().isEmpty;
+    if (iteratee is Function) {
+      return subList.where((l) => iteratee(e) == iteratee(l)).toList().isEmpty;
+    }
+    if (iteratee is String) {
+      return subList.where((l) => l[iteratee] == e[iteratee]).toList().isEmpty;
+    }
+    return false;
   }).toList();
 }) as dynamic;
 
