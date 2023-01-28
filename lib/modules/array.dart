@@ -1,3 +1,4 @@
+import 'package:flodash/flodash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flodash/utils/varargs.dart';
 
@@ -12,10 +13,7 @@ List chunk(List list, {int size = 1}) {
 }
 
 List compact(List list) {
-  return list
-      .where((e) =>
-          e != null && e != false && e != 0 && e != double.nan && e != "")
-      .toList();
+  return list.where((e) => !isFalsy(e)).toList();
 }
 
 final concat = VarargsFunction((arguments) {
@@ -68,6 +66,27 @@ final differenceWith = VarargsFunction((arguments) {
 List drop(List list, {int n = 1}) => list.sublist(n);
 
 List dropRight(List list, {int n = 1}) => list.sublist(0, list.length - n);
+
+List dropRightWhile(List list, dynamic predicate) {
+  for (int i = list.length - 1; i >= 0; i--) {
+    if ((predicate is Function && predicate(list[i])) ||
+        ((list[i] is Map &&
+                predicate is String &&
+                isTruthy(list[i][predicate])) ||
+            (predicate is Map &&
+                list[i] is Map &&
+                mapEquals(predicate, list[i]))) ||
+        (predicate is List &&
+            list[i] is List &&
+            listEquals(predicate, list[i])) ||
+        (predicate == list[i])) {
+      list.removeAt(i);
+    } else {
+      break;
+    }
+  }
+  return list;
+}
 
 List flatten(Iterable<dynamic> list) => [
       for (var element in list)
