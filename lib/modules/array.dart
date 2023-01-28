@@ -1,3 +1,5 @@
+import 'package:flodash/utils/varargs.dart';
+
 List chunk(List list, {int size = 1}) {
   List chunks = [];
   for (int i = 0; i < list.length; i += size) {
@@ -14,3 +16,14 @@ List compact(List list) {
           e != null && e != false && e != 0 && e != double.nan && e != "")
       .toList();
 }
+
+final concat = VarargsFunction((arguments) {
+  return arguments.fold([], (List acc, element) {
+    if (element is List) {
+      acc.addAll(element);
+    } else {
+      acc.add(element);
+    }
+    return acc;
+  });
+}) as dynamic;
