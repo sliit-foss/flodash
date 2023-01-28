@@ -71,7 +71,7 @@ List dropRight(List list, {int n = 1}) => list.sublist(0, list.length - n);
 
 List dropRightWhile(List list, dynamic predicate) {
   for (int i = list.length - 1; i >= 0; i--) {
-    if (dropWhileConditions(predicate, list[i])) {
+    if (evaluatePredicate(predicate, list[i])) {
       list.removeAt(i);
     } else {
       break;
@@ -82,7 +82,7 @@ List dropRightWhile(List list, dynamic predicate) {
 
 List dropWhile(List list, dynamic predicate) {
   for (int i = 0; i < list.length; i++) {
-    if (dropWhileConditions(predicate, list[i])) {
+    if (evaluatePredicate(predicate, list[i])) {
       list.removeAt(i);
       i--;
     } else {
@@ -90,6 +90,30 @@ List dropWhile(List list, dynamic predicate) {
     }
   }
   return list;
+}
+
+@Deprecated('Use inbuilt List.fillRange() instead')
+List fill(List list, dynamic value, {int start = 0, dynamic end}) {
+  end ??= list.length;
+  list.fillRange(start, end, value);
+  return list;
+}
+
+@Deprecated("Use inbuilt List.indexOf() or List.indexWhere() instead")
+int findIndex(List list, dynamic predicate, {int fromIndex = 0}) {
+  for (int i = fromIndex; i < list.length; i++) {
+    if (evaluatePredicate(predicate, list[i])) return i;
+  }
+  return -1;
+}
+
+@Deprecated("Use inbuilt List.lastIndexOf() or List.lastIndexWhere() instead")
+int findLastIndex(List list, dynamic predicate, {dynamic fromIndex}) {
+  fromIndex ??= list.length - 1;
+  for (int i = fromIndex; i >= 0; i--) {
+    if (evaluatePredicate(predicate, list[i])) return i;
+  }
+  return -1;
 }
 
 List flatten(Iterable<dynamic> list) => [

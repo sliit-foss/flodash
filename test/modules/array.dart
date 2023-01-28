@@ -132,7 +132,7 @@ runTests() {
           equals([{"x": 1, "y": 2}, {"x": 2, "y": 1}])
       );
     });
-    test('property', () {
+    test('truthy-property', () {
       expect(
           flodash.dropRightWhile([{"x": 0, "y": 6}, {"x": 5, "y": 1}, {"x": 4, "y": 7}], "x"),
           equals([{"x": 0, "y": 6}])
@@ -152,10 +152,64 @@ runTests() {
           equals([{"x": 2, "y": 1}])
       );
     });
-    test('property', () {
+    test('truthy-property', () {
       expect(
           flodash.dropWhile([{"x": 1, "y": 6}, {"x": 0, "y": 1}, {"x": 4, "y": 7}], "x"),
           equals([{"x": 0, "y": 1}, {"x": 4, "y": 7}])
+      );
+    });
+  });
+  group('fill', () {
+    test('default', () {
+      expect(
+          flodash.fill([4, 6, 8, 10], "*"),
+          equals(["*", "*", "*", "*"])
+      );
+    });
+    test('start-end', () {
+      expect(
+          flodash.fill([4, 6, 8, 10], "*", start: 1, end: 3),
+          equals([4, "*", "*", 10])
+      );
+    });
+  });
+  group('find-index', () {
+    test('iterator-function', () {
+      expect(
+          flodash.findIndex([4, 6, 8, 10], (n) => n > 8),
+          equals(3)
+      );
+    });
+    test('map-equality', () {
+      expect(
+          flodash.findIndex([{"x": 1, "y": 2}, {"x": 2, "y": 1}], {"x": 1, "y": 2}),
+          equals(0)
+      );
+    });
+    test('truthy-property', () {
+      expect(
+          flodash.findIndex([{"x": 1, "y": 6}, {"x": 0, "y": 1}, {"x": 4, "y": 7}], "x"),
+          equals(0)
+      );
+    });
+  });
+  group('find-last-index', () {
+    test('iterator-function', () {
+      expect(
+          flodash.findLastIndex([9, 6, 8, 10, 12, 45, 32], (n) => n > 8),
+          equals(6)
+      );
+    });
+    test('map-equality', () {
+      expect(
+          flodash.findLastIndex([{"x": 1, "y": 2}, {"x": 2, "y": 1}, {"x": 1, "y": 2}], {"x": 1, "y": 2}),
+          equals(2)
+      );
+    });
+    test('truthy-property', () {
+      expect(
+          flodash.findLastIndex([{"x": 1, "y": 6}, {"x": 0, "y": 1}, {"x": 4, "y": 7}], "x"),
+          equals(2)
       );
     });
   });
