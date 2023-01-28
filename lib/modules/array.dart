@@ -116,6 +116,12 @@ int findLastIndex(List list, dynamic predicate, {dynamic fromIndex}) {
   return -1;
 }
 
+@Deprecated("Use inbuilt List.first instead")
+dynamic first(List list) => list.first;
+
+@Deprecated("Use inbuilt List.first instead")
+dynamic head(List list) => list.first;
+
 List flatten(Iterable<dynamic> list) => [
       for (var element in list)
         if (element is! Iterable) element else ...element
@@ -125,3 +131,14 @@ List flattenDeep(Iterable<dynamic> list) => [
       for (var element in list)
         if (element is! Iterable) element else ...flattenDeep(element),
     ];
+
+List flattenDepth(Iterable<dynamic> list, {int depth = 1}) {
+  if (depth == 0) return list.toList();
+  return [
+    for (var element in list)
+      if (element is! Iterable)
+        element
+      else
+        ...flattenDepth(element, depth: depth - 1),
+  ];
+}

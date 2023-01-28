@@ -213,6 +213,18 @@ runTests() {
       );
     });
   });
+  test('first', () {
+    expect(
+        flodash.first([1, 2, 3]),
+        equals(1)
+    );
+  });
+  test('head', () {
+    expect(
+        flodash.head([2, 3]),
+        equals(2)
+    );
+  });
   group('flatten', () {
     test('atomic', () {
       expect(
@@ -224,6 +236,12 @@ runTests() {
       expect(
           flodash.flattenDeep([1, [2, [3, [4]], 5]]),
           equals([1, 2, 3, 4, 5])
+      );
+    });
+    test('depth', () {
+      expect(
+          flodash.flattenDepth([1, [2, [3, [4]], 5]], depth: 2),
+          equals([1, 2, 3, [4], 5])
       );
     });
   });

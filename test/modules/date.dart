@@ -1,3 +1,10 @@
+import 'package:flodash/flodash.dart' as flodash;
+
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flodash/flodash.dart' as flodash;
+runTests() {
+  test('now', () {
+    int currentTime = DateTime.now().millisecondsSinceEpoch;
+    expect(flodash.now(), greaterThan(currentTime));
+  });
+}
