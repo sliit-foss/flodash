@@ -52,17 +52,11 @@ final difference = VarargsFunction((arguments) {
 
 final differenceWith = VarargsFunction((arguments) {
   List argumentClone = [...arguments];
-  dynamic iteratee = argumentClone.removeLast();
+  dynamic comparator = argumentClone.removeLast();
   List subList = flatten(argumentClone.sublist(1));
-  return arguments[0].where((e) {
-    if (iteratee is Function) {
-      return subList.where((l) => iteratee(e) == iteratee(l)).toList().isEmpty;
-    }
-    if (iteratee is String) {
-      return subList.where((l) => l[iteratee] == e[iteratee]).toList().isEmpty;
-    }
-    return false;
-  }).toList();
+  return arguments[0]
+      .where((e) => evaluateComparator(subList, e, comparator: comparator))
+      .toList();
 }) as dynamic;
 
 List drop(List list, {int n = 1}) => list.sublist(n);
@@ -156,3 +150,12 @@ int indexOf(List list, dynamic value, {int fromIndex = 0}) =>
     list.indexOf(value, fromIndex);
 
 List initial(List list) => list.sublist(0, list.length - 1);
+
+final intersection =
+    VarargsFunction((arguments) => baseIntersection(arguments)) as dynamic;
+
+final intersectionWith = VarargsFunction((arguments) {
+  List argumentClone = [...arguments];
+  dynamic comparator = argumentClone.removeLast();
+  return baseIntersection(argumentClone, comparator: comparator);
+}) as dynamic;

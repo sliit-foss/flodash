@@ -285,4 +285,50 @@ runTests() {
         equals([1, 2])
     );
   });
+  group('intersection', () {
+    test('default', () {
+      expect(
+          flodash.intersection([2, 1], [2, 3]),
+          equals([2])
+      );
+    });
+    test('multiple', () {
+      expect(
+          flodash.intersection([2, 1], [2, 3], [2, 4]),
+          equals([2])
+      );
+    });
+    test('no-intersections', () {
+      expect(
+          flodash.intersection([2, 1], [6, 3], [2, 0]),
+          equals([])
+      );
+    });
+  });
+  group('intersection-with', () {
+    test('default', () {
+      expect(
+          flodash.intersectionWith([2.1, 1.2], [2.3, 3.4], (n) => n.floor()),
+          equals([2.1])
+      );
+    });
+    test('multiple', () {
+      expect(
+          flodash.intersectionWith([2.1, 1.2], [2.3, 3.4], [4.5, 5.6, 2.4], [2.25], (n) => n.floor()),
+          equals([2.1])
+      );
+    });
+    test('no-intersections', () {
+      expect(
+          flodash.intersectionWith([2.1, 1.2], [6.3, 3.4], [2.5, 0.6], (n) => n.floor()),
+          equals([])
+      );
+    });
+    test('property-equality', () {
+      expect(
+          flodash.intersectionWith([{"x": 1}, {"x": 2}], [{"x": 2}, {"x": 1}], "x"),
+          equals([{"x": 1}, {"x": 2}])
+      );
+    });
+  });
 }
