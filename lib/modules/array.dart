@@ -181,18 +181,18 @@ dynamic nth(List list, {int n = 0}) {
   }
 }
 
-final pull = VarargsFunction((arguments) {
-  List argumentClone = [...arguments];
-  List values = argumentClone.sublist(1);
-  List list = argumentClone[0];
-  for (int i = 0; i < list.length; i++) {
-    if (values
-        .where((element) => isEqual(element, list[i]))
-        .toList()
-        .isNotEmpty) {
-      list.removeAt(i);
-      i--;
+List remove(List list, dynamic predicate) {
+  List removed = [];
+  list.removeWhere((element) {
+    if (evaluatePredicate(predicate, element)) {
+      removed.add(element);
+      return true;
     }
-  }
-  return list;
-}) as dynamic;
+    return false;
+  });
+  return removed;
+}
+
+@Deprecated(
+    "Use inbuilt List.reversed.toList() instead. Further this methods does not mutate the passed list like the original javascript method")
+List reverse(List list) => list.reversed.toList();

@@ -391,35 +391,30 @@ runTests() {
       );
     });
   });
-  group('pull', () {
+  group('remove', () {
+    test('default', () {
+      List array = [1, 2, 3, 4];
+      expect(
+          flodash.remove(array, (n) => n % 2 == 0),
+          equals([2, 4])
+      );
+      expect(
+          array,
+          equals([1, 3])
+      );
+    });
+    test('no-removals', () {
+      expect(
+          flodash.remove([1, 2, 3, 4], (n) => n % 5 == 0),
+          equals([])
+      );
+    });
+  });
+  group('reverse', () {
     test('default', () {
       expect(
-          flodash.pull( [1, 2, 3, 1, 2, 3], 2, 3),
-          equals([1, 1])
-      );
-    });
-    test('nested-maps', () {
-      expect(
-          flodash.pull([1, 2, 3, {"a": 1, "b": 2}, {"a": 1, "b": 2}, {"h": 6}], {"a": 1, "b": 2}),
-          equals([1, 2, 3, {"h": 6}])
-      );
-    });
-    test('nested-lists', () {
-      expect(
-          flodash.pull([1, 2, 3, [1, 2, 3]], [1, 2, 3]),
-          equals([1, 2, 3])
-      );
-    });
-    test('no-args', () {
-      expect(
-          flodash.pull([1, 2, 3, 1, 2, 3]),
-          equals([1, 2, 3, 1, 2, 3])
-      );
-    });
-    test('no-matches', () {
-      expect(
-          flodash.pull([1, 2, 3, 1, 2, 3], 4, 5),
-          equals([1, 2, 3, 1, 2, 3])
+          flodash.reverse([1, 2, 3]),
+          equals([3, 2, 1])
       );
     });
   });
