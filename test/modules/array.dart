@@ -76,8 +76,44 @@ runTests() {
       );
     });
   });
+  group('difference-by', () {
+    test('iterator-function', () {
+      expect(
+          flodash.differenceBy([2.1, 1.2], [2.3, 3.4], (n) => n.floor()),
+          equals([1.2])
+      );
+    });
+  });
+  group('drop', () {
+    test('default', () {
+      expect(
+          flodash.drop([1, 2, 3]),
+          equals([2, 3])
+      );
+    });
+    test('custom-length', () {
+      expect(
+          flodash.drop([1, 2, 3], n: 2),
+          equals([3])
+      );
+    });
+  });
+  group('dropRight', () {
+    test('default', () {
+      expect(
+          flodash.dropRight([1, 2, 3]),
+          equals([1, 2])
+      );
+    });
+    test('custom-length', () {
+      expect(
+          flodash.dropRight([1, 2, 3], n: 2),
+          equals([1])
+      );
+    });
+  });
   group('flatten', () {
-    test('simple', () {
+    test('atomic', () {
       expect(
           flodash.flatten([1, [2, [3, [4]], 5]]),
           equals([1, 2, [3, [4]], 5])

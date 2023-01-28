@@ -50,6 +50,19 @@ final difference = VarargsFunction((arguments) {
   }).toList();
 }) as dynamic;
 
+final differenceBy = VarargsFunction((arguments) {
+  List argumentClone = [...arguments];
+  Function iteratee = argumentClone.removeLast();
+  List subList = flatten(argumentClone.sublist(1));
+  return arguments[0].where((e) {
+    return subList.where((l) => iteratee(e) == iteratee(l)).toList().isEmpty;
+  }).toList();
+}) as dynamic;
+
+List drop(List list, {int n = 1}) => list.sublist(n);
+
+List dropRight(List list, {int n = 1}) => list.sublist(0, list.length - n);
+
 List flatten(Iterable<dynamic> list) => [
       for (var element in list)
         if (element is! Iterable) element else ...element
