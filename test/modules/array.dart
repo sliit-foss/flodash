@@ -23,4 +23,9 @@ runTests() {
           ]));
     });
   });
+
+  test('Compact', () {
+    List li = [0, 1, false, 2, '', 3];
+    expect(flodash.compact(li), equals([1, 2, 3]));
+  });
 }
