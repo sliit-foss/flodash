@@ -245,4 +245,44 @@ runTests() {
       );
     });
   });
+  group('from-pairs', () {
+    test('atomic', () {
+      expect(
+          flodash.fromPairs([["a", 1], ["b", 2]]),
+          equals({"a": 1, "b": 2})
+      );
+    });
+    test('nested-maps', () {
+      expect(
+          flodash.fromPairs([["a", {"c": "d"}], ["b", {"e":"f"}]]),
+          equals({"a": {"c": "d"}, "b": {"e":"f"}})
+      );
+    });
+  });
+  group('index-of', () {
+    test('default', () {
+      expect(
+          flodash.indexOf([4, 6, 8, 10], 6),
+          equals(1)
+      );
+    });
+    test('start', () {
+      expect(
+          flodash.indexOf([4, 6, 8, 6], 6, fromIndex: 2),
+          equals(3)
+      );
+    });
+    test('start-not-found', () {
+      expect(
+          flodash.indexOf([4, 6, 8, 10], 6, fromIndex: 2),
+          equals(-1)
+      );
+    });
+  });
+  test('initial', () {
+    expect(
+        flodash.initial([1, 2, 3]),
+        equals([1, 2])
+    );
+  });
 }

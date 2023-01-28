@@ -142,3 +142,17 @@ List flattenDepth(Iterable<dynamic> list, {int depth = 1}) {
         ...flattenDepth(element, depth: depth - 1),
   ];
 }
+
+Map<String, dynamic> fromPairs(List list) {
+  Map<String, dynamic> map = {};
+  for (int i = 0; i < list.length; i++) {
+    map[list[i][0]] = list[i][1];
+  }
+  return map;
+}
+
+@Deprecated("Use inbuilt List.indexOf instead")
+int indexOf(List list, dynamic value, {int fromIndex = 0}) =>
+    list.indexOf(value, fromIndex);
+
+List initial(List list) => list.sublist(0, list.length - 1);
