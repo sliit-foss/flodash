@@ -266,13 +266,13 @@ runTests() {
           equals(1)
       );
     });
-    test('start', () {
+    test('from-index', () {
       expect(
           flodash.indexOf([4, 6, 8, 6], 6, fromIndex: 2),
           equals(3)
       );
     });
-    test('start-not-found', () {
+    test('not-found', () {
       expect(
           flodash.indexOf([4, 6, 8, 10], 6, fromIndex: 2),
           equals(-1)
@@ -328,6 +328,98 @@ runTests() {
       expect(
           flodash.intersectionWith([{"x": 1}, {"x": 2}], [{"x": 2}, {"x": 1}], "x"),
           equals([{"x": 1}, {"x": 2}])
+      );
+    });
+  });
+  group('join', () {
+    test('default', () {
+      expect(
+          flodash.join([1, 2, 3], "-"),
+          equals("1-2-3")
+      );
+    });
+    test('empty-separator', () {
+      expect(
+          flodash.join([1, 2, 3], ""),
+          equals("123")
+      );
+    });
+  });
+  test('last', () {
+      expect(
+          flodash.last([1, 2, 3]),
+          equals(3)
+      );
+    });
+  group('last-index-of', () {
+    test('default', () {
+      expect(
+          flodash.lastIndexOf([4, 6, 8, 6], 6),
+          equals(3)
+      );
+    });
+    test('from-index', () {
+      expect(
+          flodash.lastIndexOf([4, 6, 8, 6], 6, fromIndex: 2),
+          equals(1)
+      );
+    });
+    test('not-found', () {
+      expect(
+          flodash.lastIndexOf([4, 2, 8, 10, 6], 6, fromIndex: 2),
+          equals(-1)
+      );
+    });
+  });
+  group('nth', () {
+    test('default', () {
+      expect(
+          flodash.nth([1, 2, 3], n: 1),
+          equals(2)
+      );
+    });
+    test('negative-index', () {
+      expect(
+          flodash.nth([1, 2, 3], n: -2),
+          equals(2)
+      );
+    });
+    test('out-of-bounds', () {
+      expect(
+          flodash.nth([1, 2, 3], n: 5),
+          equals(null)
+      );
+    });
+  });
+  group('pull', () {
+    test('default', () {
+      expect(
+          flodash.pull( [1, 2, 3, 1, 2, 3], 2, 3),
+          equals([1, 1])
+      );
+    });
+    test('nested-maps', () {
+      expect(
+          flodash.pull([1, 2, 3, {"a": 1, "b": 2}, {"a": 1, "b": 2}, {"h": 6}], {"a": 1, "b": 2}),
+          equals([1, 2, 3, {"h": 6}])
+      );
+    });
+    test('nested-lists', () {
+      expect(
+          flodash.pull([1, 2, 3, [1, 2, 3]], [1, 2, 3]),
+          equals([1, 2, 3])
+      );
+    });
+    test('no-args', () {
+      expect(
+          flodash.pull([1, 2, 3, 1, 2, 3]),
+          equals([1, 2, 3, 1, 2, 3])
+      );
+    });
+    test('no-matches', () {
+      expect(
+          flodash.pull([1, 2, 3, 1, 2, 3], 4, 5),
+          equals([1, 2, 3, 1, 2, 3])
       );
     });
   });

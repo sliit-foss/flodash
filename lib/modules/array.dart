@@ -159,3 +159,40 @@ final intersectionWith = VarargsFunction((arguments) {
   dynamic comparator = argumentClone.removeLast();
   return baseIntersection(argumentClone, comparator: comparator);
 }) as dynamic;
+
+@Deprecated("Use inbuilt List.join instead")
+String join(List list, [String separator = ',']) => list.join(separator);
+
+@Deprecated("Use inbuilt List.last instead")
+dynamic last(List list) => list.last;
+
+@Deprecated("Use inbuilt List.lastIndexOf instead")
+int lastIndexOf(List list, dynamic value, {dynamic fromIndex}) {
+  fromIndex ??= list.length - 1;
+  return list.lastIndexOf(value, fromIndex);
+}
+
+dynamic nth(List list, {int n = 0}) {
+  if (n < 0) n = list.length + n;
+  try {
+    return list[n];
+  } catch (e) {
+    return null;
+  }
+}
+
+final pull = VarargsFunction((arguments) {
+  List argumentClone = [...arguments];
+  List values = argumentClone.sublist(1);
+  List list = argumentClone[0];
+  for (int i = 0; i < list.length; i++) {
+    if (values
+        .where((element) => isEqual(element, list[i]))
+        .toList()
+        .isNotEmpty) {
+      list.removeAt(i);
+      i--;
+    }
+  }
+  return list;
+}) as dynamic;
