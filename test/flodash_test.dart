@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flodash/flodash.dart' as flodash;
+import './modules/array.dart' as array;
 
-void main() {
-  test('check exports', () {});
+main() {
+  array.runTests();
 }
