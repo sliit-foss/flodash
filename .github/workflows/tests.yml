@@ -6,8 +6,7 @@ on:
       - main
 
 jobs:
-  build:
-
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,5 +17,4 @@ jobs:
         with:
           flutter-version: '2.10.4'
           channel: 'stable'
-
       - run: flutter test
