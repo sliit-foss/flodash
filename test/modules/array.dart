@@ -528,4 +528,72 @@ runTests() {
       );
     });
   });
+  test('sorted-uniq', () {
+    expect(
+        flodash.sortedUniq([1, 1, 2]),
+        equals([1, 2])
+    );
+  });
+  group('sorted-uniq-by', () {
+    test('iteratee', () {
+      expect(
+          flodash.sortedUniqBy([1.1, 1.2, 1.4, 2.3, 2.4], (o) => o.floor()),
+          equals([1.1, 2.3])
+      );
+    });
+  });
+  group('tail', () {
+    test('default', () {
+      expect(
+          flodash.tail([1, 2, 3]),
+          equals([2, 3])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.tail([]),
+          equals([])
+      );
+    });
+  });
+  group('take', () {
+    test('default', () {
+      expect(
+          flodash.take([1, 2, 3]),
+          equals([1])
+      );
+    });
+    test('n', () {
+      expect(
+          flodash.take([1, 2, 3], n: 2),
+          equals([1, 2])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.take([], n: 3),
+          equals([])
+      );
+    });
+  });
+  group('take-right', () {
+    test('default', () {
+      expect(
+          flodash.takeRight([1, 2, 3]),
+          equals([3])
+      );
+    });
+    test('n', () {
+      expect(
+          flodash.takeRight([1, 2, 3], n: 2),
+          equals([2, 3])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.takeRight([], n: 3),
+          equals([])
+      );
+    });
+  });
 }

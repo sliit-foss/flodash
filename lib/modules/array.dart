@@ -236,3 +236,44 @@ int sortedLastIndexBy(List list, dynamic value, dynamic iteratee) =>
 
 int sortedLastIndexOf(List list, dynamic value) =>
     _sortedIndex(list, value, operation: gte) - 1;
+
+List sortedUniq(List list) {
+  List result = [];
+  for (int i = 0; i < list.length; i++) {
+    if (i == 0 || !isEqual(list[i], list[i - 1])) result.add(list[i]);
+  }
+  return result;
+}
+
+List sortedUniqBy(List list, Function iteratee) {
+  List result = [];
+  for (int i = 0; i < list.length; i++) {
+    if (i == 0 || !isEqual(iteratee(list[i]), iteratee(list[i - 1])))
+      result.add(list[i]);
+  }
+  return result;
+}
+
+List tail(List list) {
+  try {
+    return list.sublist(1);
+  } catch (e) {
+    return [];
+  }
+}
+
+List take(List list, {int n = 1}) {
+  try {
+    return list.sublist(0, n);
+  } catch (e) {
+    return [];
+  }
+}
+
+List takeRight(List list, {int n = 1}) {
+  try {
+    return list.sublist(list.length - n);
+  } catch (e) {
+    return [];
+  }
+}
