@@ -2,7 +2,7 @@ import 'package:flodash/flodash.dart' as flodash;
 
 import 'package:flutter_test/flutter_test.dart';
 
-runTests() {
+main() {
   group('chunk', () {
     List li = ["a", "b", "c", "d"];
     test('even-split', () {

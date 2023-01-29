@@ -2,7 +2,7 @@ import 'package:flodash/flodash.dart' as flodash;
 
 import 'package:flutter_test/flutter_test.dart';
 
-runTests() {
+main() {
   group('eq', () {
     test('string', () {
       expect(flodash.eq('a', 'a'), equals(true));
