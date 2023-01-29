@@ -55,7 +55,7 @@ final differenceWith = VarargsFunction((arguments) {
   dynamic comparator = argumentClone.removeLast();
   List subList = flatten(argumentClone.sublist(1));
   return arguments[0]
-      .where((e) => evaluateComparator(subList, e, comparator: comparator))
+      .where((e) => evaluateDifference(subList, e, comparator: comparator))
       .toList();
 }) as dynamic;
 
@@ -196,3 +196,33 @@ List remove(List list, dynamic predicate) {
 @Deprecated(
     "Use inbuilt List.reversed.toList() instead. Further this methods does not mutate the passed list like the original javascript method")
 List reverse(List list) => list.reversed.toList();
+
+@Deprecated("Use inbuilt List.sublist instead")
+List slice(List list, {int start = 0, dynamic end}) {
+  end ??= list.length;
+  if (end < 0) end = list.length + end;
+  if (start < 0) start = list.length + start;
+  return list.sublist(start, end);
+}
+
+int _sortedIndex(List list, dynamic value, {dynamic iteratee}) {
+  int low = 0;
+  int high = list.length;
+  while (low < high) {
+    int mid = (low + high) ~/ 2;
+    if (evaluateOperation(list[mid], value,
+        comparator: iteratee, operation: lt)) {
+      low = mid + 1;
+    } else {
+      high = mid;
+    }
+  }
+  return low;
+}
+
+int sortedIndex(List list, dynamic value) => _sortedIndex(list, value);
+
+int sortedIndexBy(List list, dynamic value, dynamic iteratee) =>
+    _sortedIndex(list, value, iteratee: iteratee);
+
+int Function(List<dynamic>, dynamic) sortedIndexOf = sortedIndex;

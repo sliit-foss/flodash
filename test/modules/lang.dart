@@ -3,6 +3,151 @@ import 'package:flodash/flodash.dart' as flodash;
 import 'package:flutter_test/flutter_test.dart';
 
 runTests() {
+  group('eq', () {
+    test('string', () {
+      expect(flodash.eq('a', 'a'), equals(true));
+      expect(flodash.eq('a', 'b'), equals(false));
+    });
+    test('number', () {
+      expect(flodash.eq(1, 1), equals(true));
+      expect(flodash.eq(1, 2), equals(false));
+    });
+    test('double', () {
+      expect(flodash.eq(1.0, 1.0), equals(true));
+      expect(flodash.eq(1.0, 2.0), equals(false));
+    });
+    test('bool', () {
+      expect(flodash.eq(true, true), equals(true));
+      expect(flodash.eq(true, false), equals(false));
+    });
+    test('null', () {
+      expect(flodash.eq(null, null), equals(true));
+      expect(flodash.eq(null, 1), equals(false));
+    });
+    test('nan', () {
+      expect(flodash.eq(double.nan, double.nan), equals(false));
+    });
+    test('list', () {
+      expect(flodash.eq([1], [1]), equals(false));
+      expect(flodash.eq([1], [2]), equals(false));
+    });
+    test('map', () {
+      expect(flodash.eq({'a': 1}, {'a': 1}), equals(false));
+      expect(flodash.eq({'a': 1}, {'a': 2}), equals(false));
+    });
+  });
+  group('gt', () {
+    test('string', () {
+      expect(flodash.gt('a', 'a'), equals(false));
+      expect(flodash.gt('a', 'b'), equals(false));
+      expect(flodash.gt('b', 'a'), equals(true));
+    });
+    test('number', () {
+      expect(flodash.gt(1, 1), equals(false));
+      expect(flodash.gt(1, 2), equals(false));
+      expect(flodash.gt(2, 1), equals(true));
+    });
+    test('double', () {
+      expect(flodash.gt(1.0, 1.0), equals(false));
+      expect(flodash.gt(1.0, 2.0), equals(false));
+      expect(flodash.gt(2.0, 1.0), equals(true));
+    });
+    test('nan', () {
+      expect(flodash.gt(double.nan, double.nan), equals(false));
+    });
+    test('list', () {
+      expect(flodash.gt([], [1]), equals(false));
+      expect(flodash.gt([1], []), equals(true));
+    });
+    test('map', () {
+      expect(flodash.gt({}, {'a': 1}), equals(false));
+      expect(flodash.gt({'a': 1}, {}), equals(true));
+    });
+  });
+  group('gte', () {
+    test('string', () {
+      expect(flodash.gte('a', 'a'), equals(true));
+      expect(flodash.gte('a', 'b'), equals(false));
+      expect(flodash.gte('b', 'a'), equals(true));
+    });
+    test('number', () {
+      expect(flodash.gte(1, 1), equals(true));
+      expect(flodash.gte(1, 2), equals(false));
+      expect(flodash.gte(2, 1), equals(true));
+    });
+    test('double', () {
+      expect(flodash.gte(1.0, 1.0), equals(true));
+      expect(flodash.gte(1.0, 2.0), equals(false));
+      expect(flodash.gte(2.0, 1.0), equals(true));
+    });
+    test('nan', () {
+      expect(flodash.gte(double.nan, double.nan), equals(false));
+    });
+    test('list', () {
+      expect(flodash.gte([], [1]), equals(false));
+      expect(flodash.gte([1], []), equals(true));
+    });
+    test('map', () {
+      expect(flodash.gte({}, {'a': 1}), equals(false));
+      expect(flodash.gte({'a': 1}, {}), equals(true));
+    });
+  });
+  group('lt', () {
+    test('string', () {
+      expect(flodash.lt('a', 'a'), equals(false));
+      expect(flodash.lt('a', 'b'), equals(true));
+      expect(flodash.lt('b', 'a'), equals(false));
+    });
+    test('number', () {
+      expect(flodash.lt(1, 1), equals(false));
+      expect(flodash.lt(1, 2), equals(true));
+      expect(flodash.lt(2, 1), equals(false));
+    });
+    test('double', () {
+      expect(flodash.lt(1.0, 1.0), equals(false));
+      expect(flodash.lt(1.0, 2.0), equals(true));
+      expect(flodash.lt(2.0, 1.0), equals(false));
+    });
+    test('nan', () {
+      expect(flodash.lt(double.nan, double.nan), equals(false));
+    });
+    test('list', () {
+      expect(flodash.lt([], [1]), equals(true));
+      expect(flodash.lt([1], []), equals(false));
+    });
+    test('map', () {
+      expect(flodash.lt({}, {'a': 1}), equals(true));
+      expect(flodash.lt({'a': 1}, {}), equals(false));
+    });
+  });
+  group('lte', () {
+    test('string', () {
+      expect(flodash.lte('a', 'a'), equals(true));
+      expect(flodash.lte('a', 'b'), equals(true));
+      expect(flodash.lte('b', 'a'), equals(false));
+    });
+    test('number', () {
+      expect(flodash.lte(1, 1), equals(true));
+      expect(flodash.lte(1, 2), equals(true));
+      expect(flodash.lte(2, 1), equals(false));
+    });
+    test('double', () {
+      expect(flodash.lte(1.0, 1.0), equals(true));
+      expect(flodash.lte(1.0, 2.0), equals(true));
+      expect(flodash.lte(2.0, 1.0), equals(false));
+    });
+    test('nan', () {
+      expect(flodash.lte(double.nan, double.nan), equals(false));
+    });
+    test('list', () {
+      expect(flodash.lte([], [1]), equals(true));
+      expect(flodash.lte([1], []), equals(false));
+    });
+    test('map', () {
+      expect(flodash.lte({}, {'a': 1}), equals(true));
+      expect(flodash.lte({'a': 1}, {}), equals(false));
+    });
+  });
   group('truthy', () {
     test('string', () {
       expect(flodash.isTruthy(''), equals(false));

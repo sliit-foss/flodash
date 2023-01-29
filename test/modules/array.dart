@@ -418,4 +418,72 @@ runTests() {
       );
     });
   });
+  group('slice', () {
+    test('default', () {
+      expect(
+          flodash.slice([1, 2, 3, 4], start: 2),
+          equals([3, 4])
+      );
+    });
+    test('end', () {
+      expect(
+          flodash.slice([1, 2, 3, 4], start: 2, end: 3),
+          equals([3])
+      );
+    });
+    test('negative-start', () {
+      expect(
+          flodash.slice([1, 2, 3, 4], start: -2),
+          equals([3, 4])
+      );
+    });
+    test('negative-end', () {
+      expect(
+          flodash.slice([1, 2, 3, 4], start: 1, end:-1),
+          equals([2, 3])
+      );
+    });
+  });
+  group('sorted-index', () {
+    test('int', () {
+      expect(
+          flodash.sortedIndex([30, 50], 40),
+          equals(1)
+      );
+    });
+    test('string', () {
+      expect(
+          flodash.sortedIndex(["a", "c"], "a"),
+          equals(0)
+      );
+    });
+  });
+  group('sorted-index-by', () {
+    test('iteratee', () {
+      expect(
+          flodash.sortedIndexBy([{"x": 4}, {"x": 5}], {"x": 8}, (o) => o["x"]),
+          equals(2)
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.sortedIndexBy([{"x": 4}, {"x": 5}], {"x": 4}, "x"),
+          equals(0)
+      );
+    });
+  });
+  group('sorted-index-of', () {
+    test('int', () {
+      expect(
+          flodash.sortedIndexOf([4, 5, 5, 5, 6], 5),
+          equals(1)
+      );
+    });
+    test('string', () {
+      expect(
+          flodash.sortedIndexOf(["a", "b", "b", "b", "c"], "d"),
+          equals(5)
+      );
+    });
+  });
 }
