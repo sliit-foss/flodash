@@ -486,4 +486,46 @@ runTests() {
       );
     });
   });
+  group('sorted-last-index', () {
+    test('int', () {
+      expect(
+          flodash.sortedLastIndex([4, 5, 5, 5, 6], 5),
+          equals(4)
+      );
+    });
+    test('string', () {
+      expect(
+          flodash.sortedLastIndex(["a", "b", "b", "b", "c"], "b"),
+          equals(4)
+      );
+    });
+  });
+  group('sorted-last-index-by', () {
+    test('iteratee', () {
+      expect(
+          flodash.sortedLastIndexBy([{"x": 4}, {"x": 5}], {"x": 4}, (o) => o["x"]),
+          equals(1)
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.sortedLastIndexBy([{"x": 4},  {"x": 4}, {"x": 5}], {"x": 4}, "x"),
+          equals(2)
+      );
+    });
+  });
+  group('sorted-last-index-of', () {
+    test('int', () {
+      expect(
+          flodash.sortedLastIndexOf([4, 5, 5, 5, 6], 5),
+          equals(3)
+      );
+    });
+    test('string', () {
+      expect(
+          flodash.sortedLastIndexOf(["a", "b", "b", "b", "c"], "b"),
+          equals(3)
+      );
+    });
+  });
 }
