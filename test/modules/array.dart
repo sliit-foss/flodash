@@ -722,4 +722,32 @@ runTests() {
       );
     });
   });
+  group('unzip', () {
+    test('default', () {
+      expect(
+          flodash.unzip([["a", 1, true], ["b", 2, false]]),
+          equals([["a", "b"], [1, 2], [true, false]])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.unzip([["a", null, true], ["b", null, false]]),
+          equals([["a", "b"], [], [true, false]])
+      );
+    });
+  });
+  group('zip', () {
+    test('even-length', () {
+      expect(
+          flodash.zip(["a", "b"], [1, 2], [true, false]),
+          equals([["a", 1, true], ["b", 2, false]])
+      );
+    });
+    test('uneven-length', () {
+      expect(
+          flodash.zip(["a", "b"], [], [true, false]),
+          equals([["a", null, true], ["b", null, false]])
+      );
+    });
+  });
 }

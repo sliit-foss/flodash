@@ -325,3 +325,24 @@ List _uniq(List list, {dynamic comparator}) {
 List uniq(List list) => _uniq(list);
 
 List uniqBy(List list, dynamic iteratee) => _uniq(list, comparator: iteratee);
+
+List unzip(List list) {
+  List result = [];
+  for (int i = 0; i < list.length; i++) {
+    for (int j = 0; j < list[i].length; j++) {
+      if (result.length <= j) result.add([]);
+      if (list[i][j] != null) result[j].add(list[i][j]);
+    }
+  }
+  return result;
+}
+
+final zip = VarargsFunction((arguments) {
+  List result = [];
+  int maxLength =
+      arguments.map((e) => e.length).reduce((a, b) => a > b ? a : b);
+  for (int i = 0; i < maxLength; i++) {
+    result.add(arguments.map((l) => nth(l, n: i)).toList());
+  }
+  return result;
+}) as dynamic;
