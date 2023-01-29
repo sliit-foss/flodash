@@ -750,6 +750,40 @@ runTests() {
       );
     });
   });
+  group('xor', () {
+    test('default', () {
+      expect(
+          flodash.xor([2, 1], [2, 3]),
+          equals([1, 3])
+      );
+    });
+    test('multiple', () {
+      expect(
+          flodash.xor([2, 1], [2, 3], [3, 4]),
+          equals([1, 4])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.xor([2, 1], []),
+          equals([2, 1])
+      );
+    });
+  });
+  group('xor-with', () {
+    test('iteratee', () {
+      expect(
+          flodash.xorWith([2.1, 1.2], [2.3, 3.4], (n) => n.floor()),
+          equals([1.2, 3.4])
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.xorWith([{"x": 1, "y": 2}, {"x": 2, "y": 1}], [{"x": 1, "y": 2}, {"x": 3, "y": 4}], "x"),
+          equals([{"x": 2, "y": 1}, {"x": 3, "y": 4}])
+      );
+    });
+  });
   group('zip', () {
     test('even-length', () {
       expect(
