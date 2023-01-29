@@ -596,4 +596,102 @@ runTests() {
       );
     });
   });
+  group('take-right-while', () {
+    test('default', () {
+      expect(
+          flodash.takeRightWhile([1, 2, 3, 4], (n) => n > 2),
+          equals([3, 4])
+      );
+    });
+    test('map-equality', () {
+      expect(
+          flodash.takeRightWhile([{"x": 1, "y": 2}, {"x": 2, "y": 1}], {"x": 2, "y": 1}),
+          equals([{"x": 2, "y": 1}])
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.takeRightWhile([{"x": 1, "y": 0}, {"x": 0, "y": 7}], "y"),
+          equals([{"x": 0, "y": 7}])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.takeRightWhile([], (n) => n > 2),
+          equals([])
+      );
+    });
+  });
+  group('take-while', () {
+    test('default', () {
+      expect(
+          flodash.takeWhile([1, 2, 3, 4], (n) => n < 3),
+          equals([1, 2])
+      );
+    });
+    test('map-equality', () {
+      expect(
+          flodash.takeWhile([{"x": 1, "y": 2}, {"x": 2, "y": 1}], {"x": 1, "y": 2}),
+          equals([{"x": 1, "y": 2}])
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.takeWhile([{"x": 1, "y": 6}, {"x": 0, "y": 0}], "y"),
+          equals([{"x": 1, "y": 6}])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.takeWhile([], (n) => n < 3),
+          equals([])
+      );
+    });
+  });
+  group('union', () {
+    test('default', () {
+      expect(
+          flodash.union([2], [1, 2]),
+          equals([2, 1])
+      );
+    });
+    test('multiple', () {
+      expect(
+          flodash.union([2], [1, 2], [2, 3]),
+          equals([2, 1, 3])
+      );
+    });
+    test('empty', () {
+      expect(
+          flodash.union([2], []),
+          equals([2])
+      );
+    });
+  });
+  group('uniq', () {
+    test('int', () {
+      expect(
+          flodash.uniq([2, 1, 2]),
+          equals([2, 1])
+      );
+    });
+    test('string', () {
+      expect(
+          flodash.uniq(["a", "b", "a"]),
+          equals(["a", "b"])
+      );
+    });
+    test('map', () {
+      expect(
+          flodash.uniq([{"x": 1, "y": 2}, {"x": 2, "y": 1}, {"x": 1, "y": 2}]),
+          equals([{"x": 1, "y": 2}, {"x": 2, "y": 1}])
+      );
+    });
+    test('list', () {
+      expect(
+          flodash.uniq([[2], [1], [2]]),
+          equals([[2], [1]])
+      );
+    });
+  });
 }

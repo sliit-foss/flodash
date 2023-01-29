@@ -248,8 +248,9 @@ List sortedUniq(List list) {
 List sortedUniqBy(List list, Function iteratee) {
   List result = [];
   for (int i = 0; i < list.length; i++) {
-    if (i == 0 || !isEqual(iteratee(list[i]), iteratee(list[i - 1])))
+    if (i == 0 || !isEqual(iteratee(list[i]), iteratee(list[i - 1]))) {
       result.add(list[i]);
+    }
   }
   return result;
 }
@@ -276,4 +277,38 @@ List takeRight(List list, {int n = 1}) {
   } catch (e) {
     return [];
   }
+}
+
+List _takeWhile(List list, dynamic predicate, {int start = 0, dynamic end}) {
+  if (list.isEmpty) return [];
+  List result = [];
+  end ??= list.length;
+  bool isFromRight = start > end;
+  for (int i = start; isFromRight ? i >= end : i < end;) {
+    if (evaluatePredicate(predicate, list[i])) {
+      result.add(list[i]);
+    } else {
+      break;
+    }
+    isFromRight ? i-- : i++;
+  }
+  return isFromRight ? result.reversed.toList() : result;
+}
+
+List takeRightWhile(List list, dynamic predicate) =>
+    _takeWhile(list, predicate, start: list.length - 1, end: 0);
+
+List<dynamic> Function(List<dynamic>, dynamic, {dynamic end, int start})
+    takeWhile = _takeWhile;
+
+final union =
+    VarargsFunction((arguments) => uniq(flatten(arguments))) as dynamic;
+
+List uniq(List list) {
+  List result = [];
+  for (dynamic element in list) {
+    if (!result.where((e) => isEqual(e, element)).isNotEmpty)
+      result.add(element);
+  }
+  return result;
 }
