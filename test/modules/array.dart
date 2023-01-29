@@ -668,6 +668,20 @@ runTests() {
       );
     });
   });
+  group('union-with', () {
+    test('iteratee', () {
+      expect(
+          flodash.unionWith([2.1], [1.2, 2.3], (n) => n.floor()),
+          equals([2.1, 1.2])
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.unionWith([{"x": 1}], [{"x": 2}, {"x": 1}], "x"),
+          equals([{"x": 1}, {"x": 2}])
+      );
+    });
+  });
   group('uniq', () {
     test('int', () {
       expect(
@@ -691,6 +705,20 @@ runTests() {
       expect(
           flodash.uniq([[2], [1], [2]]),
           equals([[2], [1]])
+      );
+    });
+  });
+  group('uniq-by', () {
+    test('iteratee', () {
+      expect(
+          flodash.uniqBy([2.1, 1.2, 2.3], (o) => o.floor()),
+          equals([2.1, 1.2])
+      );
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.uniqBy([{"x": 1, "y": 2}, {"x": 2, "y": 1}, {"x": 1, "y": 2}], "x"),
+          equals([{"x": 1, "y": 2}, {"x": 2, "y": 1}])
       );
     });
   });

@@ -304,11 +304,24 @@ List<dynamic> Function(List<dynamic>, dynamic, {dynamic end, int start})
 final union =
     VarargsFunction((arguments) => uniq(flatten(arguments))) as dynamic;
 
-List uniq(List list) {
+final unionWith = VarargsFunction((arguments) {
+  List argumentClone = [...arguments];
+  dynamic comparator = argumentClone.removeLast();
+  return uniqBy(flatten(argumentClone), comparator);
+}) as dynamic;
+
+List _uniq(List list, {dynamic comparator}) {
   List result = [];
   for (dynamic element in list) {
-    if (!result.where((e) => isEqual(e, element)).isNotEmpty)
+    if (!result
+        .where((e) => evaluateOperation(e, element, comparator: comparator))
+        .isNotEmpty) {
       result.add(element);
+    }
   }
   return result;
 }
+
+List uniq(List list) => _uniq(list);
+
+List uniqBy(List list, dynamic iteratee) => _uniq(list, comparator: iteratee);
