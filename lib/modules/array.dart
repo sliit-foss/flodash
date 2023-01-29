@@ -137,8 +137,8 @@ List flattenDepth(Iterable<dynamic> list, {int depth = 1}) {
   ];
 }
 
-Map<String, dynamic> fromPairs(List list) {
-  Map<String, dynamic> map = {};
+Map<dynamic, dynamic> fromPairs(List list) {
+  Map<dynamic, dynamic> map = {};
   for (int i = 0; i < list.length; i++) {
     map[list[i][0]] = list[i][1];
   }
@@ -337,6 +337,8 @@ List unzip(List list) {
   return result;
 }
 
+final without = difference;
+
 final zip = VarargsFunction((arguments) {
   List result = [];
   int maxLength =
@@ -346,3 +348,13 @@ final zip = VarargsFunction((arguments) {
   }
   return result;
 }) as dynamic;
+
+@Deprecated("Use inbuilt Map.fromIterables instead")
+Map<dynamic, dynamic> zipObject(List list, List values) =>
+    Map.fromIterables(list, values);
+
+Map<dynamic, dynamic> zipObjectDeep(List list, List values) => reduce(
+    list,
+    (acc, element, index) =>
+        setRecursiveProperty(element.split('.'), values[index], acc),
+    accumulator: {});
