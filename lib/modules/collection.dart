@@ -1,3 +1,5 @@
+import 'package:flodash/utils/array.dart';
+
 Map<dynamic, dynamic> countBy(List list, dynamic iteratee) {
   return reduce(list, (Map<dynamic, dynamic> result, dynamic value, int index) {
     final key = (iteratee is Function
@@ -34,6 +36,21 @@ void eachRight(dynamic collection, Function iteratee) =>
 void forEach = each;
 
 void forEachRight = eachRight;
+
+bool every(dynamic collection, dynamic iteratee) {
+  if (collection.isEmpty) return true;
+  bool result = true;
+  List types = [String, num, int, double, bool, List, Map, Set, Object];
+  for (int i = 0; i < collection.length; i++) {
+    if (types.contains(iteratee)) {
+      result = collection.elementAt(i).runtimeType == iteratee;
+    } else {
+      result = evaluatePredicate(iteratee, collection.elementAt(i));
+    }
+    if (!result) break;
+  }
+  return result;
+}
 
 dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) {
   if (accumulator == null) {
