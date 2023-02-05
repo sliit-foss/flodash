@@ -290,6 +290,32 @@ main() {
     expect(flodash.sample(li), isNotNull);
     expect(li.contains(flodash.sample(li)), equals(true));
   });
+  group('sample-size', () {
+    List li = [1, 2, 3, 4];
+    test('default', () {
+      expect(flodash.sampleSize(li).length, equals(1));
+    });
+    test('n', () {
+      expect(flodash.sampleSize(li, n: 2).length, equals(2));
+    });
+  });
+  test('shuffle', () {
+    expect(flodash.shuffle([1, 2, 3]), unorderedEquals([1, 2, 3]));
+  });
+  group('size', () {
+    test('list', () {
+      expect(flodash.size([1, 2, 3]), equals(3));
+    });
+    test('set', () {
+      expect(flodash.size({1, 2, 3}), equals(3));
+    });
+    test('map', () {
+      expect(flodash.size({'a': 1, 'b': 2}), equals(2));
+    });
+    test('string', () {
+      expect(flodash.size('abc'), equals(3));
+    });
+  });
   group('some', () {
     test('list', () {
       expect(flodash.some([1, -1, -3, -6], (value) => value > 0), equals(true));

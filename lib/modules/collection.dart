@@ -156,5 +156,33 @@ List reject(List list, dynamic iteratee) =>
 dynamic sample(dynamic collection) =>
     collection.elementAt(Random().nextInt(collection.length));
 
+List sampleSize(dynamic collection, {int n = 1}) {
+  List result = [];
+  for (int i = 0; i < n; i++) {
+    dynamic item = sample(collection);
+    result.add(item);
+    collection =
+        collection.where((element) => !isEqual(element, item)).toList();
+    if (collection.length == 0) break;
+  }
+  return result;
+}
+
+@Deprecated("Use inbuilt List.shuffle() instead")
+List shuffle(List collection) {
+  collection.shuffle();
+  return collection;
+}
+
+int size(dynamic collection) {
+  if (collection is List || collection is Set || collection is String) {
+    return collection.length;
+  } else if (collection is Map) {
+    return collection.keys.length;
+  } else {
+    throw Exception('Collection type not supported');
+  }
+}
+
 bool some(dynamic collection, dynamic iteratee) =>
     _every(collection, iteratee, some: true);
