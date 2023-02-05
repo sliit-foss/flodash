@@ -93,7 +93,9 @@ main() {
             {'a': 1},
             {'a': 0}
           ], 'a'),
-          equals([{'a': 1}]));
+          equals([
+            {'a': 1}
+          ]));
     });
     test("direct-equality", () {
       expect(flodash.filter([1, 2, 3, 4], 1), equals([1]));
@@ -119,8 +121,8 @@ main() {
   });
   group("find-last", () {
     test("iterator-function", () {
-      expect(flodash.findLast([1, 2, 3, 4], (value) => value % 2 == 0),
-          equals(4));
+      expect(
+          flodash.findLast([1, 2, 3, 4], (value) => value % 2 == 0), equals(4));
     });
     test("truthy-property", () {
       expect(
@@ -143,19 +145,46 @@ main() {
   });
   group("flat-map-deep", () {
     test("iterator-function", () {
-      expect(flodash.flatMapDeep([1, 2, 3, 4], (value) => [[value, value * 2], [value, value / 2]]),
+      expect(
+          flodash.flatMapDeep(
+              [1, 2, 3, 4],
+              (value) => [
+                    [value, value * 2],
+                    [value, value / 2]
+                  ]),
           equals([1, 2, 1, 0.5, 2, 4, 2, 1, 3, 6, 3, 1.5, 4, 8, 4, 2]));
     });
   });
   group("flat-map-depth", () {
     test("depth-1", () {
       expect(
-          flodash.flatMapDepth([1, 2, 3, 4], (value) => [[value, value * 2], [value, value / 2]], depth: 1),
-          equals([[1, 2], [1, 0.5], [2, 4], [2, 1.0], [3, 6], [3, 1.5], [4, 8], [4, 2.0]]));
+          flodash.flatMapDepth(
+              [1, 2, 3, 4],
+              (value) => [
+                    [value, value * 2],
+                    [value, value / 2]
+                  ],
+              depth: 1),
+          equals([
+            [1, 2],
+            [1, 0.5],
+            [2, 4],
+            [2, 1.0],
+            [3, 6],
+            [3, 1.5],
+            [4, 8],
+            [4, 2.0]
+          ]));
     });
     test("depth-2", () {
       expect(
-          flodash.flatMapDepth([1, 2, 3, 4], (value) => [[value, value * 2], [value, value / 2]], depth: 2),
+          flodash.flatMapDepth(
+              [1, 2, 3, 4],
+              (value) => [
+                    [value, value * 2],
+                    [value, value / 2]
+                  ],
+              depth: 2),
           equals([1, 2, 1, 0.5, 2, 4, 2, 1, 3, 6, 3, 1.5, 4, 8, 4, 2]));
     });
   });
@@ -166,7 +195,8 @@ main() {
   });
   test("for-each-right", () {
     List items = [];
-    flodash.forEachRight([1, 2, 3, 4], (value, index) => items.add(value * index));
+    flodash
+        .forEachRight([1, 2, 3, 4], (value, index) => items.add(value * index));
     expect(items, equals([12, 6, 2, 0]));
   });
   group('group-by', () {
@@ -211,9 +241,50 @@ main() {
       expect(flodash.includes('abcd', 'bc', fromIndex: -3), equals(true));
     });
   });
+  group('key-by', () {
+    List li = [
+      {'dir': 'left', 'code': 97},
+      {'dir': 'right', 'code': 100}
+    ];
+    test('iterator-function - 1', () {
+      expect(flodash.keyBy([6.1, 4.2, 6.3], (value) => value.floor()),
+          equals({4: 4.2, 6: 6.3}));
+    });
+    test('iterator-function - 2', () {
+      expect(
+          flodash.keyBy(li, (value) => String.fromCharCode(value['code'])),
+          equals({
+            'a': {'dir': 'left', 'code': 97},
+            'd': {'dir': 'right', 'code': 100}
+          }));
+    });
+    test('shorthand-property', () {
+      expect(
+          flodash.keyBy(li, 'dir'),
+          equals({
+            'left': {'dir': 'left', 'code': 97},
+            'right': {'dir': 'right', 'code': 100}
+          }));
+    });
+  });
   test('reduce', () {
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n, accumulator: 0),
         equals(3));
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n), equals(3));
+  });
+  group('some', () {
+    test('list', () {
+      expect(flodash.some([1, -1, -3, -6 ], (value) => value > 0 ), equals(true));
+      expect(flodash.some([-31, -1, -3, -6 ], (value) => value > 0), equals(false));
+    });
+    test('type-equality', () {
+      expect(flodash.some([1, "sdf", "d" ], int), equals(true));
+      expect(flodash.some([1, -1, -3, -6 ], String), equals(false));
+      expect(flodash.some(["ab", 0, []], String), equals(true));
+    });
+    test('direct-equality', () {
+      expect(flodash.some([1, -1, -3, -6 ], 1), equals(true));
+      expect(flodash.some([1, -1, -3, -6 ], 0), equals(false));
+    });
   });
 }

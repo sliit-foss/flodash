@@ -55,3 +55,6 @@ The following functions have been omitted because they are not applicable to dar
   - unzipWith
   - xorBy
   - zipWith
+
+- Collection
+  - invokeMap

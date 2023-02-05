@@ -36,7 +36,7 @@ void each(dynamic collection, Function iteratee) => _each(collection, iteratee);
 void eachRight(dynamic collection, Function iteratee) =>
     _each(collection, iteratee, reverse: true);
 
-bool every(dynamic collection, dynamic iteratee) {
+bool _every(dynamic collection, dynamic iteratee, {bool some = false}) {
   if (collection.isEmpty) return true;
   bool result = true;
   List types = [String, num, int, double, bool, List, Map, Set, Object];
@@ -46,10 +46,13 @@ bool every(dynamic collection, dynamic iteratee) {
     } else {
       result = evaluatePredicate(iteratee, collection.elementAt(i));
     }
-    if (!result) break;
+    if ((some && result) || !result) break;
   }
   return result;
 }
+
+bool every(dynamic collection, dynamic iteratee) =>
+    _every(collection, iteratee);
 
 @Deprecated("Use inbuilt List.where() instead")
 List filter(List list, dynamic iteratee) =>
@@ -117,6 +120,14 @@ bool includes(dynamic collection, dynamic value, {int fromIndex = 0}) {
   }
 }
 
+Map<dynamic, dynamic> keyBy(List list, dynamic iteratee) {
+  return reduce(list, (Map<dynamic, dynamic> result, dynamic value, int index) {
+    final key = evaluatePredicateKey(iteratee, value);
+    result[key] = value;
+    return result;
+  }, accumulator: {});
+}
+
 dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) {
   if (accumulator == null) {
     accumulator = list[0];
@@ -127,3 +138,6 @@ dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) {
   }
   return accumulator;
 }
+
+bool some(dynamic collection, dynamic iteratee) =>
+    _every(collection, iteratee, some: true);
