@@ -13,7 +13,7 @@ Map<dynamic, dynamic> countBy(List list, dynamic iteratee) {
         .toString();
     result[key] = result[key] == null ? 1 : result[key] + 1;
     return result;
-  }, accumulator: {});
+  }, {});
 }
 
 void _each(dynamic collection, Function iteratee, {bool reverse = false}) {
@@ -95,7 +95,7 @@ Map<dynamic, dynamic> groupBy(List list, dynamic iteratee) {
     final key = evaluatePredicateKey(iteratee, value);
     result[key] = result[key] == null ? [value] : [...result[key], value];
     return result;
-  }, accumulator: {});
+  }, {});
 }
 
 bool includes(dynamic collection, dynamic value, {int fromIndex = 0}) {
@@ -125,7 +125,7 @@ Map<dynamic, dynamic> keyBy(List list, dynamic iteratee) {
     final key = evaluatePredicateKey(iteratee, value);
     result[key] = value;
     return result;
-  }, accumulator: {});
+  }, {});
 }
 
 @Deprecated("Use inbuilt List.map() instead")
@@ -166,7 +166,7 @@ List partition(dynamic list, dynamic iteratee) {
       result[1].add(value);
     }
     return result;
-  }, accumulator: [[], []]);
+  }, [[], []]);
 }
 
 dynamic _reduce(List list, dynamic iteratee,
@@ -183,10 +183,10 @@ dynamic _reduce(List list, dynamic iteratee,
   return accumulator;
 }
 
-dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) =>
+dynamic reduce(List list, dynamic iteratee, [dynamic accumulator]) =>
     _reduce(list, iteratee, accumulator: accumulator);
 
-dynamic reduceRight(List list, dynamic iteratee, {dynamic accumulator}) =>
+dynamic reduceRight(List list, dynamic iteratee, [dynamic accumulator]) =>
     _reduce(list, iteratee, accumulator: accumulator, right: true);
 
 List reject(List list, dynamic iteratee) =>
