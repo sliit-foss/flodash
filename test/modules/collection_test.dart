@@ -196,6 +196,21 @@ main() {
           }));
     });
   });
+  group('includes', () {
+    test('list', () {
+      expect(flodash.includes([1, 2, 3], 1), equals(true));
+      expect(flodash.includes([1, 2, 3], 1, fromIndex: 2), equals(false));
+      expect(flodash.includes([1, 2, 3], 3, fromIndex: -1), equals(true));
+      expect(flodash.includes([1, 2, 3], 2, fromIndex: -2), equals(true));
+      expect(flodash.includes([1, 2, 3], 1, fromIndex: -4), equals(false));
+    });
+    test('string', () {
+      expect(flodash.includes('abcd', 'bc'), equals(true));
+      expect(flodash.includes('abcd', 'bc', fromIndex: 2), equals(false));
+      expect(flodash.includes('abcd', 'cd', fromIndex: -1), equals(false));
+      expect(flodash.includes('abcd', 'bc', fromIndex: -3), equals(true));
+    });
+  });
   test('reduce', () {
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n, accumulator: 0),
         equals(3));
