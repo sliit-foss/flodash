@@ -1,5 +1,7 @@
 import 'package:flodash/utils/array.dart';
 
+import 'array.dart';
+
 Map<dynamic, dynamic> countBy(List list, dynamic iteratee) {
   return reduce(list, (Map<dynamic, dynamic> result, dynamic value, int index) {
     final key = (iteratee is Function
@@ -33,10 +35,6 @@ void each(dynamic collection, Function iteratee) => _each(collection, iteratee);
 void eachRight(dynamic collection, Function iteratee) =>
     _each(collection, iteratee, reverse: true);
 
-void forEach = each;
-
-void forEachRight = eachRight;
-
 bool every(dynamic collection, dynamic iteratee) {
   if (collection.isEmpty) return true;
   bool result = true;
@@ -50,6 +48,50 @@ bool every(dynamic collection, dynamic iteratee) {
     if (!result) break;
   }
   return result;
+}
+
+@Deprecated("Use inbuilt List.where() instead")
+List filter(List list, dynamic iteratee) =>
+    list.where((element) => evaluatePredicate(iteratee, element)).toList();
+
+@Deprecated("Use inbuilt List.firstWhere() instead")
+dynamic find(List list, dynamic iteratee) {
+  try {
+    return list.firstWhere((element) => evaluatePredicate(iteratee, element));
+  } catch (e) {
+    return null;
+  }
+}
+
+@Deprecated("Use inbuilt List.lastWhere() instead")
+dynamic findLast(List list, dynamic iteratee) {
+  try {
+    return list.lastWhere((element) => evaluatePredicate(iteratee, element));
+  } catch (e) {
+    return null;
+  }
+}
+
+List flatMap(List list, dynamic iteratee) =>
+    flatten(list.map((element) => iteratee(element)).toList());
+
+List flatMapDeep(List list, dynamic iteratee) =>
+    flattenDeep(list.map((element) => iteratee(element)).toList());
+
+List flatMapDepth(List list, dynamic iteratee, {int depth = 1}) =>
+    flattenDepth(list.map((element) => iteratee(element)).toList(),
+        depth: depth);
+
+void Function(dynamic, Function) forEach = each;
+
+void Function(dynamic, Function) forEachRight = eachRight;
+
+Map<dynamic, dynamic> groupBy(List list, dynamic iteratee) {
+  return reduce(list, (Map<dynamic, dynamic> result, dynamic value, int index) {
+    final key = evaluatePredicateKey(iteratee, value);
+    result[key] = result[key] == null ? [value] : [...result[key], value];
+    return result;
+  }, accumulator: {});
 }
 
 dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) {

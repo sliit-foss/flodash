@@ -26,6 +26,12 @@ bool evaluatePredicate(dynamic predicate, dynamic item) {
           isEqual(item, predicate));
 }
 
+dynamic evaluatePredicateKey(dynamic predicate, dynamic item) {
+  if (predicate is Function) return predicate(item);
+  if (item is Map && predicate is String) return item[predicate];
+  return predicate;
+}
+
 List baseIntersection(List lists, {comparator}) {
   return lists[0].where((e) {
     bool intersects = true;
