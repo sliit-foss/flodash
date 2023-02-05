@@ -299,6 +299,24 @@ main() {
           ]));
     });
   });
+  group('partition', () {
+    test('list', () {
+      expect(
+          flodash.partition([1, 2, 3, 4], (value) => value % 2 == 0),
+          equals([
+            [2, 4],
+            [1, 3]
+          ]));
+    });
+    test('string', () {
+      expect(
+          flodash.partition('abcd', (value) => value == 'b'),
+          equals([
+            ['b'],
+            ['a', 'c', 'd']
+          ]));
+    });
+  });
   test('reduce', () {
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n, accumulator: 0),
         equals(3));

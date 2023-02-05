@@ -157,6 +157,18 @@ List orderBy(List list, List<dynamic> iteratees, [dynamic orders]) {
   return list;
 }
 
+List partition(dynamic list, dynamic iteratee) {
+  if (list is String) list = list.split('');
+  return reduce(list, (List<List<dynamic>> result, dynamic value, int index) {
+    if (evaluatePredicateKey(iteratee, value)) {
+      result[0].add(value);
+    } else {
+      result[1].add(value);
+    }
+    return result;
+  }, accumulator: [[], []]);
+}
+
 dynamic _reduce(List list, dynamic iteratee,
     {dynamic accumulator, bool right = false}) {
   if (accumulator == null) {
