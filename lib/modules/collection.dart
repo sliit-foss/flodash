@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flodash/flodash.dart';
 import 'package:flodash/utils/array.dart';
 
@@ -128,16 +130,31 @@ Map<dynamic, dynamic> keyBy(List list, dynamic iteratee) {
   }, accumulator: {});
 }
 
-dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) {
+dynamic _reduce(List list, dynamic iteratee,
+    {dynamic accumulator, bool right = false}) {
   if (accumulator == null) {
-    accumulator = list[0];
-    list = list.sublist(1);
+    accumulator = right ? list.last : list.first;
+    list = right ? list.sublist(0, list.length - 1) : list.sublist(1);
   }
-  for (int i = 0; i < list.length; i++) {
+  for (int i = right ? list.length - 1 : 0;
+      right ? i >= 0 : i < list.length;
+      right ? i-- : i++) {
     accumulator = iteratee(accumulator, list[i], i);
   }
   return accumulator;
 }
+
+dynamic reduce(List list, dynamic iteratee, {dynamic accumulator}) =>
+    _reduce(list, iteratee, accumulator: accumulator);
+
+dynamic reduceRight(List list, dynamic iteratee, {dynamic accumulator}) =>
+    _reduce(list, iteratee, accumulator: accumulator, right: true);
+
+List reject(List list, dynamic iteratee) =>
+    list.where((element) => !evaluatePredicate(iteratee, element)).toList();
+
+dynamic sample(dynamic collection) =>
+    collection.elementAt(Random().nextInt(collection.length));
 
 bool some(dynamic collection, dynamic iteratee) =>
     _every(collection, iteratee, some: true);

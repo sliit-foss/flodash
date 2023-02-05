@@ -272,19 +272,38 @@ main() {
         equals(3));
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n), equals(3));
   });
+  test('reduce-right', () {
+    expect(flodash.reduceRight([1, 2], (sum, n, i) => sum + n, accumulator: 0),
+        equals(3));
+    expect(flodash.reduceRight([1, 2], (acc, n, i) {
+      acc.add(n);
+      return acc;
+    }, accumulator: []),
+        equals([2, 1]));
+  });
+  test('reject', () {
+    expect(flodash.reject([1, 2, 3, 4], (value) => value % 2 == 0),
+        equals([1, 3]));
+  });
+  test('sample', () {
+    List li = [1, 2, 3, 4];
+    expect(flodash.sample(li), isNotNull);
+    expect(li.contains(flodash.sample(li)), equals(true));
+  });
   group('some', () {
     test('list', () {
-      expect(flodash.some([1, -1, -3, -6 ], (value) => value > 0 ), equals(true));
-      expect(flodash.some([-31, -1, -3, -6 ], (value) => value > 0), equals(false));
+      expect(flodash.some([1, -1, -3, -6], (value) => value > 0), equals(true));
+      expect(
+          flodash.some([-31, -1, -3, -6], (value) => value > 0), equals(false));
     });
     test('type-equality', () {
-      expect(flodash.some([1, "sdf", "d" ], int), equals(true));
-      expect(flodash.some([1, -1, -3, -6 ], String), equals(false));
+      expect(flodash.some([1, "sdf", "d"], int), equals(true));
+      expect(flodash.some([1, -1, -3, -6], String), equals(false));
       expect(flodash.some(["ab", 0, []], String), equals(true));
     });
     test('direct-equality', () {
-      expect(flodash.some([1, -1, -3, -6 ], 1), equals(true));
-      expect(flodash.some([1, -1, -3, -6 ], 0), equals(false));
+      expect(flodash.some([1, -1, -3, -6], 1), equals(true));
+      expect(flodash.some([1, -1, -3, -6], 0), equals(false));
     });
   });
 }
