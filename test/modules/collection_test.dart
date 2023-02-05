@@ -267,6 +267,38 @@ main() {
           }));
     });
   });
+  test('map', () {
+    expect(
+        flodash.map([1, 2, 3, 4], (value) => value * 2), equals([2, 4, 6, 8]));
+  });
+  group('order-by', () {
+    List li = [
+      {'user': 'fred', 'age': 48},
+      {'user': 'barney', 'age': 34},
+      {'user': 'fred', 'age': 40},
+      {'user': 'barney', 'age': 36}
+    ];
+    test('default-order', () {
+      expect(
+          flodash.orderBy([...li], ['user', 'age']),
+          equals([
+            {'user': 'barney', 'age': 34},
+            {'user': 'barney', 'age': 36},
+            {'user': 'fred', 'age': 40},
+            {'user': 'fred', 'age': 48},
+          ]));
+    });
+    test('custom-order', () {
+      expect(
+          flodash.orderBy([...li], ['user', 'age'], ['asc', 'desc']),
+          equals([
+            {'user': 'barney', 'age': 36},
+            {'user': 'barney', 'age': 34},
+            {'user': 'fred', 'age': 48},
+            {'user': 'fred', 'age': 40},
+          ]));
+    });
+  });
   test('reduce', () {
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n, accumulator: 0),
         equals(3));
@@ -275,10 +307,11 @@ main() {
   test('reduce-right', () {
     expect(flodash.reduceRight([1, 2], (sum, n, i) => sum + n, accumulator: 0),
         equals(3));
-    expect(flodash.reduceRight([1, 2], (acc, n, i) {
-      acc.add(n);
-      return acc;
-    }, accumulator: []),
+    expect(
+        flodash.reduceRight([1, 2], (acc, n, i) {
+          acc.add(n);
+          return acc;
+        }, accumulator: []),
         equals([2, 1]));
   });
   test('reject', () {
@@ -330,6 +363,34 @@ main() {
     test('direct-equality', () {
       expect(flodash.some([1, -1, -3, -6], 1), equals(true));
       expect(flodash.some([1, -1, -3, -6], 0), equals(false));
+    });
+  });
+  group('sort-by', () {
+    List li = [
+      {'user': 'fred', 'age': 48},
+      {'user': 'barney', 'age': 36},
+      {'user': 'fred', 'age': 40},
+      {'user': 'barney', 'age': 34},
+    ];
+    test('shorthand-property-array', () {
+      expect(
+          flodash.sortBy([...li], ['user', 'age']),
+          equals([
+            {'user': 'barney', 'age': 34},
+            {'user': 'barney', 'age': 36},
+            {'user': 'fred', 'age': 40},
+            {'user': 'fred', 'age': 48},
+          ]));
+    });
+    test('iterator-function', () {
+      expect(
+          flodash.sortBy([...li], (o) => o['user']),
+          equals([
+            {'user': 'barney', 'age': 36},
+            {'user': 'barney', 'age': 34},
+            {'user': 'fred', 'age': 48},
+            {'user': 'fred', 'age': 40},
+          ]));
     });
   });
 }
