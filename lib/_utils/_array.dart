@@ -1,5 +1,7 @@
 import 'package:flodash/flodash.dart';
 
+import '../modules/array/nth.dart';
+
 bool evaluateOperation(a, b, {comparator, operation = isEqual}) {
   if (comparator != null) {
     if (comparator is Function) {
