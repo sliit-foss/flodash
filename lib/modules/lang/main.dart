@@ -1,3 +1,5 @@
+export 'castArray.dart';
+export 'conformsTo.dart';
 export 'eq.dart';
 export 'gt.dart';
 export 'gte.dart';
