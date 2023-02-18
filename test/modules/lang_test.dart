@@ -137,6 +137,40 @@ main() {
       expect(flodash.gte({'a': 1}, {}), equals(true));
     });
   });
+  group('is-array', () {
+    test('empty', () {
+      expect(flodash.isArray([]), equals(true));
+    });
+    test('list', () {
+      expect(flodash.isArray([1, 2, 3]), equals(true));
+    });
+    test('map', () {
+      expect(flodash.isArray({'a': 1}), equals(false));
+    });
+  });
+  group('is-boolean', () {
+    test('true', () {
+      expect(flodash.isBoolean(true), equals(true));
+    });
+    test('false', () {
+      expect(flodash.isBoolean(false), equals(true));
+    });
+    test('null', () {
+      expect(flodash.isBoolean(null), equals(false));
+    });
+    test('number', () {
+      expect(flodash.isBoolean(1), equals(false));
+    });
+    test('string', () {
+      expect(flodash.isBoolean('a'), equals(false));
+    });
+    test('list', () {
+      expect(flodash.isBoolean([1, 2, 3]), equals(false));
+    });
+    test('map', () {
+      expect(flodash.isBoolean({'a': 1}), equals(false));
+    });
+  });
   group('lt', () {
     test('string', () {
       expect(flodash.lt('a', 'a'), equals(false));
@@ -296,6 +330,34 @@ main() {
       expect(flodash.isEqual({}, {}), equals(true));
       expect(flodash.isEqual({'a': 1}, {'a': 1}), equals(true));
       expect(flodash.isEqual({'a': 1}, {'a': 2}), equals(false));
+    });
+  });
+  group('to-string', () {
+    test('string', () {
+      expect(flodash.toString('a'), equals('a'));
+    });
+    test('number', () {
+      expect(flodash.toString(1), equals('1'));
+    });
+    test('double', () {
+      expect(flodash.toString(1.0), equals('1.0'));
+    });
+    test('bool', () {
+      expect(flodash.toString(true), equals('true'));
+    });
+    test('null', () {
+      expect(flodash.toString(null), equals(''));
+    });
+    test('nan', () {
+      expect(flodash.toString(double.nan), equals('NaN'));
+    });
+    test('list', () {
+      expect(flodash.toString([]), equals('[]'));
+      expect(flodash.toString([1]), equals('[1]'));
+    });
+    test('map', () {
+      expect(flodash.toString({}), equals('{}'));
+      expect(flodash.toString({'a': 1}), equals('{a: 1}'));
     });
   });
 }
