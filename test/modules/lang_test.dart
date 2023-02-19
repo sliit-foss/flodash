@@ -171,6 +171,20 @@ main() {
       expect(flodash.isBoolean({'a': 1}), equals(false));
     });
   });
+  group('is-nan', () {
+    test('nan', () {
+      expect(flodash.isNaN(0/0), equals(true));
+    });
+    test('null', () {
+      expect(flodash.isNaN(null), equals(false));
+    });
+    test('number', () {
+      expect(flodash.isNaN(1), equals(false));
+    });
+    test('string', () {
+      expect(flodash.isNaN('a'), equals(false));
+    });
+  });
   group('lt', () {
     test('string', () {
       expect(flodash.lt('a', 'a'), equals(false));

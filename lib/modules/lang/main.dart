@@ -7,6 +7,7 @@ export 'isArray.dart';
 export 'isBoolean.dart';
 export 'isEqual.dart';
 export 'isFalsy.dart';
+export 'isNaN.dart';
 export 'isNotNull.dart';
 export 'isNull.dart';
 export 'isTruthy.dart';
