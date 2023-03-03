@@ -171,6 +171,34 @@ main() {
       expect(flodash.isBoolean({'a': 1}), equals(false));
     });
   });
+  group('is-error', () {
+    test('error', () {
+      expect(flodash.isError(Error()), equals(true));
+    });
+    test('exception', () {
+      expect(flodash.isError(Exception()), equals(true));
+    });
+    test('null', () {
+      expect(flodash.isError(null), equals(false));
+    });
+  });
+  group('is-integer', () {
+    test('integer', () {
+      expect(flodash.isInteger(1), equals(true));
+    });
+    test('double-1', () {
+      expect(flodash.isInteger(1.3), equals(false));
+    });
+    test('double-2', () {
+      expect(flodash.isInteger(1.0), equals(false));
+    });
+    test('nan', () {
+      expect(flodash.isInteger(double.nan), equals(false));
+    });
+    test('null', () {
+      expect(flodash.isInteger(null), equals(false));
+    });
+  });
   group('is-nan', () {
     test('nan', () {
       expect(flodash.isNaN(0/0), equals(true));
@@ -183,6 +211,23 @@ main() {
     });
     test('string', () {
       expect(flodash.isNaN('a'), equals(false));
+    });
+  });
+  group('is-string', () {
+    test('empty', () {
+      expect(flodash.isString(''), equals(true));
+    });
+    test('string', () {
+      expect(flodash.isString('a'), equals(true));
+    });
+    test('number', () {
+      expect(flodash.isString(1), equals(false));
+    });
+    test('list', () {
+      expect(flodash.isString([1, 2, 3]), equals(false));
+    });
+    test('map', () {
+      expect(flodash.isString({'a': 1}), equals(false));
     });
   });
   group('lt', () {
@@ -344,6 +389,34 @@ main() {
       expect(flodash.isEqual({}, {}), equals(true));
       expect(flodash.isEqual({'a': 1}, {'a': 1}), equals(true));
       expect(flodash.isEqual({'a': 1}, {'a': 2}), equals(false));
+    });
+  });
+  group('to-array', () {
+    test('string', () {
+      expect(flodash.toArray('a'), equals(['a']));
+    });
+    test('number', () {
+      expect(flodash.toArray(1), equals([]));
+    });
+    test('double', () {
+      expect(flodash.toArray(1.0), equals([]));
+    });
+    test('bool', () {
+      expect(flodash.toArray(true), equals([]));
+    });
+    test('null', () {
+      expect(flodash.toArray(null), equals([]));
+    });
+    test('nan', () {
+      expect(flodash.toArray(double.nan), equals([]));
+    });
+    test('list', () {
+      expect(flodash.toArray([]), equals([]));
+      expect(flodash.toArray([1]), equals([1]));
+    });
+    test('map', () {
+      expect(flodash.toArray({}), equals([]));
+      expect(flodash.toArray({'a': 1}), equals([1]));
     });
   });
   group('to-string', () {
