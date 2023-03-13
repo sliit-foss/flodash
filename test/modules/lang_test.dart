@@ -199,6 +199,14 @@ main() {
       expect(flodash.isInteger(null), equals(false));
     });
   });
+  group('is-map', () {
+    test('integer', () {
+      expect(flodash.isMap(1), equals(false));
+    });
+    test('map', () {
+      expect(flodash.isMap({"a": 1, "b": 2}), equals(true));
+    });
+  });
   group('is-nan', () {
     test('nan', () {
       expect(flodash.isNaN(0/0), equals(true));

@@ -9,6 +9,7 @@ export 'isEqual.dart';
 export 'isError.dart';
 export 'isFalsy.dart';
 export 'isInteger.dart';
+export 'isMap.dart';
 export 'isNaN.dart';
 export 'isNotNull.dart';
 export 'isNull.dart';
