@@ -23,12 +23,14 @@ class Interceptor {
         "headers": response.headers
       };
       if (response.statusCode >= 200 && response.statusCode <= 299) {
-        if (_interceptors["response"] != null)
+        if (_interceptors["response"] != null) {
           return _interceptors["response"]!(decoded);
+        }
         return data;
       } else {
-        if (_interceptors["error"] != null)
+        if (_interceptors["error"] != null) {
           return _interceptors["error"]!(decoded);
+        }
         throw HttpError(response.statusCode, response.headers, data);
       }
     } on Error catch (e) {
