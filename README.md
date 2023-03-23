@@ -2,13 +2,11 @@
 
 [![Pub](https://img.shields.io/pub/v/enhanced_http.svg)](https://pub.dartlang.org/packages/enhanced_http)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/andresaraujo/enhanced_http/master/LICENSE)
-<br/><br/>
+
 
 A wrapper around the dart http package by provided by Google (https://pub.dev/packages/http) which is inspired by axios 
-<br/><br/>
+
 ## Getting started
-
-
 
 Create an instance of enhanced http as follows : 
 
