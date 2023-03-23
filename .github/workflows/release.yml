@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Generate documentation
-        run: dart doc .
-
       - name: Setup Pub Credentials
         run: |
           mkdir -p ~/.config
