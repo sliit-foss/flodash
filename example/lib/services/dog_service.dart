@@ -1,7 +1,7 @@
-import 'package:enhanced_http/enhanced_http.dart';
+import 'package:enhanced_http_example/services/core/api.dart';
 
 class DogService {
   static Future<dynamic> fetchRandomDogPhoto() async {
-    return await EnhancedHttp.get(path: "/breeds/image/random", expectedStatus: 200);
+    return await apiInstance.get("/breeds/image/random");
   }
 }

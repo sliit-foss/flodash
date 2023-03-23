@@ -39,8 +39,10 @@ class _HomeState extends State<Home> {
                       return CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: snapshot.data['message'],
-                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => const Center(child: CircularProgressIndicator()),
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Center(child: CircularProgressIndicator()),
                       );
                     } else {
                       return const Center(

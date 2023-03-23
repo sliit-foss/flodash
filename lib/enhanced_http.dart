@@ -1,126 +1,114 @@
 library enhanced_http;
 
 import 'dart:convert';
+import 'package:enhanced_http/multipart_request.dart';
+import 'package:enhanced_http/interceptor.dart';
+import 'package:enhanced_http/utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
-import 'package:http_parser/http_parser.dart';
 
-class EnhancedHttp {
-  static late final String? _baseURL;
-  static late final Map<String, String>? _headers;
-  static late final Function? _errorTransformer;
-  static late final String? _defaultErrorMessage;
+class EnhancedHttp extends MultipartRequest with Interceptor, Utils {
+  late final String? baseURL;
+  late final Map<String, String>? headers;
 
-  static void initialize({required String baseURL, Map<String, String>? headers, Function? errorTransformer, String? defaultErrorMessage}) async {
-    _baseURL = baseURL;
-    _headers = headers ?? {'Content-Type': "application/json"};
-    _errorTransformer = errorTransformer;
-    _defaultErrorMessage = defaultErrorMessage;
+  EnhancedHttp(
+      {String this.baseURL = "",
+      Map<String, String>? headers,
+      Map<String, Function>? interceptors}) {
+    this.headers = headers ?? {'Content-Type': "application/json"};
+    this.interceptors = interceptors;
   }
 
-  static Future<dynamic> get({required String path, int expectedStatus = 200, dynamic onSuccess}) async {
-    try {
-      final url = Uri.parse('$_baseURL$path');
-      return await _apiCall(() async {
-        return await http.get(
+  Future<dynamic> get(String path,
+      {Map<String, String>? headers,
+      Map<String, Function>? interceptors}) async {
+    return await request(() async {
+      return await http.get(
+        Uri.parse('$baseURL$path'),
+        headers: mergeHeaders(this.headers, headers),
+      );
+    }, interceptors);
+  }
+
+  Future<dynamic> post(String path,
+      {dynamic payload,
+      Map<String, String>? headers,
+      Map<String, Function>? interceptors,
+      List<dynamic>? files}) async {
+    final url = Uri.parse('$baseURL$path');
+    return await request(() async {
+      if (isFormData(headers)) {
+        return await multipartRequest(
+            'POST', url, payload, mergeHeaders(this.headers, headers), files);
+      } else {
+        return await http.post(
           url,
-          headers: _headers,
+          headers: mergeHeaders(this.headers, headers),
+          body: payload == null ? {} : jsonEncode(payload),
         );
-      }, expectedStatus, onSuccess);
-    } catch (e) {
-      return e;
-    }
+      }
+    }, interceptors);
   }
 
-  static Future<dynamic> post({required String path, int expectedStatus = 200, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
-    try {
-      final url = Uri.parse('$_baseURL$path');
-      return await _apiCall(() async {
-        if (formData) {
-          return await _multipartRequest('POST', url, payload, files);
-        } else {
-          return await http.post(
-            url,
-            headers: _headers,
-            body: payload == null ? {} : jsonEncode(payload),
-          );
-        }
-      }, expectedStatus, onSuccess);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  static Future<dynamic> put({required String path, int expectedStatus = 200, dynamic payload, dynamic onSuccess, bool formData = false, List<dynamic>? files}) async {
-    try {
-      final url = Uri.parse('$_baseURL$path');
-      return await _apiCall(() async {
-        if (formData) {
-          return await _multipartRequest('PUT', url, payload, files);
-        } else {
+  Future<dynamic> _update(
+      String method, String path, payload, headers, interceptors, files) async {
+    final url = Uri.parse('$baseURL$path');
+    return await request(() async {
+      if (isFormData(headers)) {
+        return await multipartRequest(
+            method, url, payload, mergeHeaders(this.headers, headers), files);
+      } else {
+        payload ??= {};
+        if (method == "PUT") {
           return await http.put(
             url,
-            headers: _headers,
-            body: payload == null ? {} : jsonEncode(payload),
+            headers: mergeHeaders(this.headers, headers),
+            body: jsonEncode(payload),
           );
         }
-      }, expectedStatus, onSuccess);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  static Future<dynamic> delete({required String path, int expectedStatus = 200, dynamic onSuccess}) async {
-    try {
-      final url = Uri.parse('$_baseURL$path');
-      return await _apiCall(() async {
-        return await http.delete(
+        return await http.patch(
           url,
-          headers: _headers,
+          headers: mergeHeaders(this.headers, headers),
+          body: jsonEncode(payload),
         );
-      }, expectedStatus, onSuccess);
-    } catch (e) {
-      return e;
-    }
+      }
+    }, interceptors);
   }
 
-  static Future<dynamic> _apiCall(Function httpRequest, int expectedStatus, dynamic onSuccess) async {
-    try {
-      final response = await httpRequest();
-      Map<String, dynamic> responseJson = json.decode(response.body);
-      if (response.statusCode == expectedStatus) {
-        if (onSuccess != null) {
-          return onSuccess();
-        } else {
-          return responseJson;
-        }
-      } else {
-        print(response.statusCode);
-        if (_errorTransformer != null) return _errorTransformer!(responseJson);
-        return responseJson;
-      }
-    } catch (e) {
-      if (_defaultErrorMessage != null) return _defaultErrorMessage;
-      return e;
-    }
+  Future<dynamic> put(String path,
+      {dynamic payload,
+      Map<String, String>? headers,
+      Map<String, Function>? interceptors,
+      List<dynamic>? files}) async {
+    return _update("PUT", path, payload, headers, interceptors, files);
   }
 
-  static _multipartRequest(requestType, url, payload, files) async {
-    final request = http.MultipartRequest(requestType, url);
-    dynamic headers = _headers;
-    headers["Content-Type"] = "multipart/form-data";
-    request.headers.addAll(headers);
-    request.fields.addAll(Map<String, String>.from(payload));
-    if (files != null) {
-      for (dynamic file in files) {
-        request.files.add(await http.MultipartFile.fromPath(
-          file['array_key'],
-          file['file'].path,
-          contentType: MediaType("image", p.extension(file['file'].path)),
-        ));
-      }
-    }
-    dynamic streamedResponse = await request.send();
-    return await http.Response.fromStream(streamedResponse);
+  Future<dynamic> patch(String path,
+      {dynamic payload,
+      Map<String, String>? headers,
+      Map<String, Function>? interceptors,
+      List<dynamic>? files}) async {
+    return _update("PATCH", path, payload, headers, interceptors, files);
+  }
+
+  Future<dynamic> delete(String path,
+      {Map<String, String>? headers,
+      Map<String, Function>? interceptors}) async {
+    return await request(() async {
+      return await http.delete(
+        Uri.parse('$baseURL$path'),
+        headers: mergeHeaders(this.headers, headers),
+      );
+    }, interceptors);
+  }
+
+  Future<dynamic> head(String path,
+      {Map<String, String>? headers,
+      Map<String, Function>? interceptors}) async {
+    return await request(() async {
+      return await http.head(
+        Uri.parse('$baseURL$path'),
+        headers: mergeHeaders(this.headers, headers),
+      );
+    }, interceptors);
   }
 }
