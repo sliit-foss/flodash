@@ -24,7 +24,7 @@ jobs:
         run: flutter pub get
 
       - name: Generate documentation
-        run: dart doc
+        run: dart doc .
 
       - name: Setup Pub Credentials
         run: |
