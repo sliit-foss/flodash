@@ -1,3 +1,3 @@
-## 3.0.1
+## 3.0.2
 
-* Fixed issue of <br> html tags being displayed in the rendered readme page
+* Fixed spelling issue in readme file

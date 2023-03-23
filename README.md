@@ -4,7 +4,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/andresaraujo/enhanced_http/master/LICENSE)
 
 
-A wrapper around the dart http package by provided by Google (https://pub.dev/packages/http) which is inspired by axios 
+A wrapper around the dart http package provided by Google (https://pub.dev/packages/http) which is inspired by axios 
 
 ## Getting started
 
