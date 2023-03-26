@@ -13,7 +13,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  flodash: ^1.0.0
+  flodash: ^0.0.1-dev.1
 ```
 
 ## Usage

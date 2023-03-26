@@ -1,7 +1,7 @@
 name: flodash
 description: A dart implementation of the popular JavaScript library lodash
 version: 0.0.1-dev.1
-homepage:
+repository: https://github.com/sliit-foss/flodash
 
 environment:
   sdk: ">=2.12.0 <3.7.0"
