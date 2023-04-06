@@ -1,3 +1,3 @@
-## 3.0.2
+## 3.1.0
 
-* Fixed spelling issue in readme file
+* Changed parameter interceptors from type Map<String, Function> to InterceptorOptions

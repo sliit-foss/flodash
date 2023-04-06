@@ -12,15 +12,14 @@ class EnhancedHttp extends MultipartRequest with Interceptor, Utils {
 
   EnhancedHttp(
       {String this.baseURL = "",
-      Map<String, String>? headers,
-      Map<String, Function>? interceptors}) {
+      Map<String, String>? headers, InterceptorOptions? interceptors}) {
     this.headers = headers ?? {'Content-Type': "application/json"};
-    this.interceptors = interceptors;
+    this.interceptors = interceptors ?? InterceptorOptions();
   }
 
   Future<dynamic> get(String path,
       {Map<String, String>? headers,
-      Map<String, Function>? interceptors}) async {
+      InterceptorOptions? interceptors}) async {
     return await request(() async {
       return await http.get(
         Uri.parse('$baseURL$path'),
@@ -31,8 +30,7 @@ class EnhancedHttp extends MultipartRequest with Interceptor, Utils {
 
   Future<dynamic> post(String path,
       {dynamic payload,
-      Map<String, String>? headers,
-      Map<String, Function>? interceptors,
+      Map<String, String>? headers, InterceptorOptions? interceptors,
       List<dynamic>? files}) async {
     final url = Uri.parse('$baseURL$path');
     return await request(() async {
@@ -76,23 +74,20 @@ class EnhancedHttp extends MultipartRequest with Interceptor, Utils {
 
   Future<dynamic> put(String path,
       {dynamic payload,
-      Map<String, String>? headers,
-      Map<String, Function>? interceptors,
+      Map<String, String>? headers, InterceptorOptions? interceptors,
       List<dynamic>? files}) async {
     return _update("PUT", path, payload, headers, interceptors, files);
   }
 
   Future<dynamic> patch(String path,
       {dynamic payload,
-      Map<String, String>? headers,
-      Map<String, Function>? interceptors,
+      Map<String, String>? headers, InterceptorOptions? interceptors,
       List<dynamic>? files}) async {
     return _update("PATCH", path, payload, headers, interceptors, files);
   }
 
   Future<dynamic> delete(String path,
-      {Map<String, String>? headers,
-      Map<String, Function>? interceptors}) async {
+      {Map<String, String>? headers, InterceptorOptions? interceptors}) async {
     return await request(() async {
       return await http.delete(
         Uri.parse('$baseURL$path'),
@@ -102,8 +97,7 @@ class EnhancedHttp extends MultipartRequest with Interceptor, Utils {
   }
 
   Future<dynamic> head(String path,
-      {Map<String, String>? headers,
-      Map<String, Function>? interceptors}) async {
+      {Map<String, String>? headers, InterceptorOptions? interceptors}) async {
     return await request(() async {
       return await http.head(
         Uri.parse('$baseURL$path'),
