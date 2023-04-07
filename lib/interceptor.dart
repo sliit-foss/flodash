@@ -36,7 +36,7 @@ class Interceptor {
         }
         throw HttpError(response.statusCode, response.headers, data);
       }
-    } on Error catch (e) {
+    } catch (e) {
       if (_interceptors.error != null) return _interceptors.error!(e);
       rethrow;
     }

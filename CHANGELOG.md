@@ -1,3 +1,3 @@
-## 3.1.0
+## 3.1.1
 
-* Changed parameter interceptors from type Map<String, Function> to InterceptorOptions
+* Fixed an issue in the request error handler
