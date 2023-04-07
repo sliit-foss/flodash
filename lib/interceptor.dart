@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:enhanced_http/http_error.dart';
 
 class InterceptorOptions {
-  Function? response;
-  Function? error;
+  Function(dynamic res)? response;
+  Function(dynamic e)? error;
 
   InterceptorOptions({this.response, this.error});
 }

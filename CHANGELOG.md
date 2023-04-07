@@ -1,3 +1,3 @@
-## 3.1.1
+## 3.1.2
 
-* Fixed an issue in the request error handler
+* Defined request interceptor parameter types
