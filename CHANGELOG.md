@@ -1,3 +1,3 @@
-## 3.1.2
+## 3.1.3
 
-* Defined request interceptor parameter types
+* Updated usage instructions

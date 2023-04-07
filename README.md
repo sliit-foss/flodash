@@ -3,43 +3,42 @@
 [![Pub](https://img.shields.io/pub/v/enhanced_http.svg)](https://pub.dartlang.org/packages/enhanced_http)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/andresaraujo/enhanced_http/master/LICENSE)
 
-
-A wrapper around the dart http package provided by Google (https://pub.dev/packages/http) which is inspired by axios 
+A wrapper around the dart http package provided by Google (https://pub.dev/packages/http) which is inspired by axios
 
 ## Getting started
 
-Create an instance of enhanced http as follows : 
+Create an instance of enhanced http as follows :
 
 ```dart
 EnhancedHttp http = EnhancedHttp(baseURL: "https://dog.ceo/api");
 ```
 
-Custom headers can be provided through the name parameter 'headers' ( Default content type is specified as application/json ) : 
+Custom headers can be provided through the name parameter 'headers' ( Default content type is specified as application/json ) :
 
 ```dart
 EnhancedHttp http = EnhancedHttp(
-  baseURL: Constants.apiBaseURL,
+  baseURL: "https://dog.ceo/api",
   headers: {'Authorization': "Bearer $token"}
 );
 ```
 
-Provide optional interceptors as follows : 
+Provide optional interceptors as follows :
 
 ```dart
 EnhancedHttp http = EnhancedHttp(
-    baseURL: Constants.apiBaseURL,
-    interceptors: {
-      "response": (res) {
+    baseURL: "https://dog.ceo/api",
+    interceptors: InterceptorOptions(
+      response: (dynamic res) {
         print("Status ${res["status"]}");
         print("Headers ${res["headers"]}");
         print("Data ${res["data"]}");
         return res["data"];
       },
-      "error": (e) {
+      error: (dynamic e) {
         print(e);
         return "An error has occurred please try again later";
       }
-    }
+    )
 );
 ```
 
