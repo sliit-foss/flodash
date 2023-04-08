@@ -1,3 +1,3 @@
-## 1.0.1
+## 1.0.2
 
-* Removed installation instructions in readme
+* Fixed issue in number - range return type
