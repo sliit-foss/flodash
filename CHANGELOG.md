@@ -1,4 +1,4 @@
-## 0.0.1-dev.1
+## 1.0.0
 
-* Initial dev release. 
-* This package is still under active development and not recommended for production use just yet.
+* Initial production release. 
+* Added number range function
