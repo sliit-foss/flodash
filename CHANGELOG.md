@@ -1,4 +1,3 @@
-## 1.0.0
+## 1.0.1
 
-* Initial production release. 
-* Added number range function
+* Removed installation instructions in readme
