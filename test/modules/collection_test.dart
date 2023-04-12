@@ -318,13 +318,11 @@ main() {
     });
   });
   test('reduce', () {
-    expect(flodash.reduce([1, 2], (sum, n, i) => sum + n, 0),
-        equals(3));
+    expect(flodash.reduce([1, 2], (sum, n, i) => sum + n, 0), equals(3));
     expect(flodash.reduce([1, 2], (sum, n, i) => sum + n), equals(3));
   });
   test('reduce-right', () {
-    expect(flodash.reduceRight([1, 2], (sum, n, i) => sum + n, 0),
-        equals(3));
+    expect(flodash.reduceRight([1, 2], (sum, n, i) => sum + n, 0), equals(3));
     expect(
         flodash.reduceRight([1, 2], (acc, n, i) {
           acc.add(n);
