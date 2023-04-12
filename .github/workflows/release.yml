@@ -20,10 +20,19 @@ jobs:
          flutter-version: '3.7.6'
          channel: 'stable'
 
+     - name: Check release conditions
+       id: skip-workflow
+       uses: saulmaldonado/skip-workflow@v1
+       with:
+         phrase: /^(?!.*\b(?:Feat!|Feat|Fix)\b).*$/i
+         github-token: ${{ secrets.GITHUB_TOKEN }}
+
      - name: Install dependencies
+       if: ${{ !steps.skip-workflow.outputs.skip }}
        run: flutter pub get
 
      - name: Setup Pub Credentials
+       if: ${{ !steps.skip-workflow.outputs.skip }}
        run: |
          mkdir -p ~/.config
          cd ~/.config
@@ -39,7 +48,9 @@ jobs:
          EOF
 
      - name: Check Publish Warnings
+       if: ${{ !steps.skip-workflow.outputs.skip }}
        run: flutter pub publish --dry-run
 
      - name: Publish Package
+       if: ${{ !steps.skip-workflow.outputs.skip }}
        run: flutter pub publish -f
