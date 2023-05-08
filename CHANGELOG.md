@@ -1,3 +1,3 @@
-## 3.1.3
+## 4.0.0
 
-* Updated usage instructions
+* Added support for streamed response type

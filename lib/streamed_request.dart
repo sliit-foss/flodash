@@ -2,12 +2,13 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:http_parser/http_parser.dart';
 
-class MultipartRequest {
-  Future<dynamic> multipartRequest(method, url, payload, headers, files) async {
+class StreamedRequest {
+  Future<dynamic> streamedRequest(method, url, headers, {payload, files, responseType}) async {
     final request = http.MultipartRequest(method, url);
-    headers["Content-Type"] = "multipart/form-data";
     request.headers.addAll(headers);
-    request.fields.addAll(Map<String, String>.from(payload));
+    if (payload != null) {
+      request.fields.addAll(Map<String, String>.from(payload));
+    }
     if (files != null) {
       for (dynamic file in files) {
         request.files.add(await http.MultipartFile.fromPath(
@@ -17,7 +18,10 @@ class MultipartRequest {
         ));
       }
     }
-    dynamic streamedResponse = await request.send();
+    http.StreamedResponse streamedResponse = await request.send();
+    if (responseType == "stream") {
+      return streamedResponse;
+    }
     return await http.Response.fromStream(streamedResponse);
   }
 }

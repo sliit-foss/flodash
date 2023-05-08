@@ -22,7 +22,11 @@ class Interceptor {
       try {
         data = json.decode(response.body);
       } catch (e) {
-        data = response.body;
+        try {
+          data = response.body;
+        } catch (e) {
+          data = response;
+        }
       }
       final decoded = {"status": response.statusCode, "data": data, "headers": response.headers};
       if (response.statusCode >= 200 && response.statusCode <= 299) {
