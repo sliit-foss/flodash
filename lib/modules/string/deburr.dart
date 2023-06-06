@@ -1,10 +1,10 @@
-import './helpers/main.dart' as helpers;
+import '_helpers/main.dart' as helpers;
 
-String deburrLetter(Match match) =>
+String _deburrLetter(Match match) =>
     helpers.deburredLetters[match.group(0)] ?? '';
 
 String deburr(String str) => str.isNotEmpty
     ? str
-        .replaceAllMapped(helpers.reLatin, deburrLetter)
+        .replaceAllMapped(helpers.reLatin, _deburrLetter)
         .replaceAll(helpers.reComboMark, '')
     : '';
