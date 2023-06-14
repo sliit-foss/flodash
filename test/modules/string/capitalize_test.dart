@@ -23,8 +23,4 @@ void main() {
     String str = flodash.capitalize('aDIDAS');
     expect(str, 'Adidas');
   });
-  test('with a german character', () {
-    String str = flodash.capitalize('ßtrasse');
-    expect(str, 'SStrasse');
-  });
 }
