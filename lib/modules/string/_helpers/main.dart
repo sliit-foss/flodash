@@ -251,3 +251,65 @@ final stringEscapes = {
   '\u2028': 'u2028',
   '\u2029': 'u2029'
 };
+
+List baseSlice(List array, int start, int end) {
+  int index = -1, length = array.length;
+
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start).toUnsigned(32));
+  start = start.toUnsigned(32);
+
+  List result = [];
+  while (++index < length) {
+    result.add(array[index + start]);
+  }
+  return result;
+}
+
+List<String> asciiToArray(String string) => string.split("");
+
+List castSlice(List array, [int start = -1, int? end]) {
+  int length = array.length;
+  end ??= length;
+  return (start.isNegative && end >= length)
+      ? array
+      : baseSlice(array, start, end);
+}
+
+List<String> unicodeToArray(String string) {
+  Iterable<Match> matches = reUnicode.allMatches(string);
+  List<String> result = [];
+  for (Match match in matches) {
+    result.add(match[0]!);
+  }
+  return result;
+}
+
+bool hasUnicode(String string) => reHasUnicode.hasMatch(string);
+
+List<String> stringToArray(String string) =>
+    hasUnicode(string) ? unicodeToArray(string) : asciiToArray(string);
+
+Function createCaseFirst(String methodName) {
+  return (String string) {
+    List<String> strSymbols = hasUnicode(string) ? stringToArray(string) : [];
+
+    String chr = strSymbols.isNotEmpty ? strSymbols[0] : string[0];
+
+    var trailing = strSymbols.isNotEmpty
+        ? castSlice(strSymbols, 1).join('')
+        : string.substring(1);
+
+    if (methodName == 'toUpperCase') {
+      return chr.toUpperCase() + trailing;
+    } else if (methodName == 'toLowerCase') {
+      return chr.toLowerCase() + trailing;
+    }
+  };
+}
