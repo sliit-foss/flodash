@@ -298,19 +298,18 @@ List<String> stringToArray(String string) =>
 
 Function createCaseFirst(String methodName) {
   return (String string) {
-    // List<String> strSymbols = hasUnicode(string) ? stringToArray(string) : [];
+    List<String> strSymbols = hasUnicode(string) ? stringToArray(string) : [];
 
-    // String chr = strSymbols.isNotEmpty ? strSymbols[0] : string[0];
+    String chr = strSymbols.isNotEmpty ? strSymbols[0] : string[0];
 
-    // var trailing = strSymbols.isNotEmpty
-    //     ? castSlice(strSymbols, 1).join('')
-    //     : string.substring(1);
+    var trailing = strSymbols.isNotEmpty
+        ? castSlice(strSymbols, 1).join('')
+        : string.substring(1);
 
-    // if (methodName == 'toUpperCase') {
-    //   return chr.toUpperCase() + trailing;
-    // } else if (methodName == 'toLowerCase') {
-    //   return chr.toLowerCase() + trailing;
-    // }
-    return string[0].toUpperCase() + string.substring(1);
+    if (methodName == 'toUpperCase') {
+      return chr.toUpperCase() + trailing;
+    } else if (methodName == 'toLowerCase') {
+      return chr.toLowerCase() + trailing;
+    }
   };
 }
