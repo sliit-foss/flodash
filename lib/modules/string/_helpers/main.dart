@@ -1,3 +1,5 @@
+import '../deburr.dart';
+
 /// Used to match empty string literals in compiled template source.
 final reEmptyStringLeading = RegExp(r"\b__p \+= '';"),
     reEmptyStringMiddle = RegExp(r"\b(__p \+=) '' \+"),
@@ -311,5 +313,63 @@ Function createCaseFirst(String methodName) {
     } else if (methodName == 'toLowerCase') {
       return chr.toLowerCase() + trailing;
     }
+  };
+}
+
+bool hasUnicodeWord(String string) {
+  return reHasUnicodeWord.hasMatch(string);
+}
+
+List<String> unicodeWords(String string) {
+  Iterable<Match> matches = reUnicodeWord.allMatches(string);
+  List<String> result = [];
+  for (Match match in matches) {
+    result.add(match[0]!);
+  }
+  return result;
+}
+
+List<String> asciiWords(String string) {
+  Iterable<Match> matches = reAsciiWord.allMatches(string);
+  List<String> result = [];
+  for (Match match in matches) {
+    result.add(match[0]!);
+  }
+  return result;
+}
+
+List<String> words(
+    {required String string, RegExp? pattern, bool guard = false}) {
+  pattern = guard ? null : pattern;
+
+  if (pattern == null) {
+    return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
+  }
+  Iterable<Match> matches = pattern.allMatches(string);
+  List<String> result = [];
+  for (Match match in matches) {
+    result.add(match[0]!);
+  }
+  return result;
+}
+
+String arrayReduce(List array, Function iteratee, String accumulator,
+    [bool initAccumulator = false]) {
+  int index = -1;
+  final length = array.length;
+
+  if (initAccumulator && length > 0) {
+    accumulator = array[++index];
+  }
+  while (++index < length) {
+    accumulator = iteratee(accumulator, array[index], index);
+  }
+  return accumulator;
+}
+
+Function createCompounder(Function callback) {
+  return (String string) {
+    return arrayReduce(
+        words(string: deburr(string).replaceAll(reApos, '')), callback, '');
   };
 }
