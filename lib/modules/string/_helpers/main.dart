@@ -1,4 +1,4 @@
-import '../deburr.dart';
+import '../main.dart';
 
 /// Used to match empty string literals in compiled template source.
 final reEmptyStringLeading = RegExp(r"\b__p \+= '';"),
@@ -331,21 +331,6 @@ List<String> unicodeWords(String string) {
 
 List<String> asciiWords(String string) {
   Iterable<Match> matches = reAsciiWord.allMatches(string);
-  List<String> result = [];
-  for (Match match in matches) {
-    result.add(match[0]!);
-  }
-  return result;
-}
-
-List<String> words(
-    {required String string, RegExp? pattern, bool guard = false}) {
-  pattern = guard ? null : pattern;
-
-  if (pattern == null) {
-    return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
-  }
-  Iterable<Match> matches = pattern.allMatches(string);
   List<String> result = [];
   for (Match match in matches) {
     result.add(match[0]!);
