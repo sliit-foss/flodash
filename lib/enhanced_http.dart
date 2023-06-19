@@ -6,6 +6,8 @@ import 'package:enhanced_http/interceptor.dart';
 import 'package:enhanced_http/utils.dart';
 import 'package:http/http.dart' as http;
 
+export 'package:http/http.dart';
+
 class EnhancedHttp extends StreamedRequest with Interceptor, Utils {
   late final String? baseURL;
   late final Map<String, String>? headers;

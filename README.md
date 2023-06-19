@@ -106,3 +106,13 @@ final res = await http.post("/path",
     ],
 );
 ```
+
+## Access to the underlying http package
+
+The underlying http package can be accessed as follows bypassing the transitive dependency import warning:
+
+```dart
+import 'package:enhanced_http/enhanced_http.dart' as http;
+
+final res = await http.get("/path");
+```

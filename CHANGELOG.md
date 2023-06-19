@@ -1,3 +1,3 @@
-## 4.0.0
+## 4.1.0
 
-* Added support for streamed response type
+* Provided direct access to the underlying http package
