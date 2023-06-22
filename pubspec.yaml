@@ -8,6 +8,7 @@ dependencies:
   yaml_edit: ^2.1.0
 
 dev_dependencies:
+  commitlint_cli: 0.4.1
   flutter_lints: 1.0.0
   husky: 0.1.6
   lint_staged: 0.3.0

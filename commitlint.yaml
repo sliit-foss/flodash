@@ -1,0 +1,25 @@
+rules:
+  type-enum:
+    - 2
+    - always
+    - - Build
+      - CI
+      - Chore
+      - Docs
+      - Feat!
+      - Feat
+      - Fix
+      - Perf
+      - Refactor
+      - Revert
+      - Style
+      - Test
+      - Wip
+  type-empty:
+    - 2
+    - never    
+  scope-enum:
+    - 2
+    - always
+    - - flodash
+      - enhanced-http
