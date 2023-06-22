@@ -1,0 +1,43 @@
+name: Publish Package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.6'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup Pub Credentials
+        run: |
+          mkdir -p ~/.config
+          cd ~/.config
+          mkdir dart
+          cat <<EOF > ~/.config/dart/pub-credentials.json
+          {
+            "accessToken":"${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}",
+            "refreshToken":"${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}",
+            "tokenEndpoint":"${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}",
+            "scopes":["https://www.googleapis.com/auth/userinfo.email","openid"],
+            "expiration":${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}
+          }
+          EOF
+      - name: Check Publish Warnings
+        run: flutter pub publish --dry-run
+      - name: Publish Package
+        run: flutter pub publish -f
