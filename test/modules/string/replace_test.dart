@@ -3,10 +3,10 @@ import 'package:flodash/flodash.dart' as flodash;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('replace', () {
+  
     test('replace should replace all occurrences of pattern in the string', () {
       String input = 'Hello, Hello, Hello!';
-      String expected = 'Hi, Hi, Hi!'; // Update the expected result
+      String expected = 'Hi, Hi, Hi!';
       String actual = flodash.replace(input, 'Hello', 'Hi');
       expect(actual, expected);
     });
@@ -29,5 +29,5 @@ void main() {
 
       expect(result, equals('Price: 200100'));
     });
-  });
+
 }
