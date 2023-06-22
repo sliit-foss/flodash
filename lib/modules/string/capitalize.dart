@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import '_helpers/main.dart' as helpers;
 
 Function _upperFirst = helpers.createCaseFirst('toUpperCase');
