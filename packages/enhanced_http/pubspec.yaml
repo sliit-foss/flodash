@@ -1,0 +1,23 @@
+name: enhanced_http
+description: A wrapper around the dart http package provided by Google which is inspired by axios
+version: 4.1.0
+repository: https://github.com/sliit-foss/enhanced_http
+
+environment:
+  sdk: ">=2.12.0 <3.7.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^0.13.5
+  http_parser: ^4.0.0
+  path: ^1.8.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
