@@ -3,7 +3,6 @@ import 'package:flodash/flodash.dart' as flodash;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  // lowerCase is converts string as space separated words, to lower case.
   test('capitalized words with spaces', () {
     String str = flodash.lowerCase('Foo Bar');
     expect(str, 'foo bar');
