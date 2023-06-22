@@ -3,7 +3,8 @@ import 'package:path/path.dart' as p;
 import 'package:http_parser/http_parser.dart';
 
 class StreamedRequest {
-  Future<dynamic> streamedRequest(method, url, headers, {payload, files, responseType}) async {
+  Future<dynamic> streamedRequest(method, url, headers,
+      {payload, files, responseType}) async {
     final request = http.MultipartRequest(method, url);
     request.headers.addAll(headers);
     if (payload != null) {

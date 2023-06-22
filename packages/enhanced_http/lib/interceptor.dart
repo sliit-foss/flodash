@@ -13,9 +13,11 @@ class Interceptor {
 
   String? defaultErrorMessage;
 
-  Future<dynamic> request(Function request, InterceptorOptions? _interceptors) async {
-    _interceptors =
-        InterceptorOptions(response: interceptors?.response ?? _interceptors?.response, error: interceptors?.error ?? _interceptors?.error);
+  Future<dynamic> request(
+      Function request, InterceptorOptions? _interceptors) async {
+    _interceptors = InterceptorOptions(
+        response: interceptors?.response ?? _interceptors?.response,
+        error: interceptors?.error ?? _interceptors?.error);
     try {
       final response = await request();
       dynamic data;
@@ -28,7 +30,11 @@ class Interceptor {
           data = response;
         }
       }
-      final decoded = {"status": response.statusCode, "data": data, "headers": response.headers};
+      final decoded = {
+        "status": response.statusCode,
+        "data": data,
+        "headers": response.headers
+      };
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         if (_interceptors.response != null) {
           return _interceptors.response!(decoded);
