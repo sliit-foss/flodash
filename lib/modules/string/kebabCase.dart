@@ -5,4 +5,5 @@ Function _kebabCase =
   return result + (index > 0 ? '-' : '') + word.toLowerCase();
 });
 
+/// Converts `String` to [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
 String kebabCase(String string) => _kebabCase(string);
