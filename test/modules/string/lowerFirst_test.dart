@@ -27,7 +27,7 @@ void main() {
     String str = flodash.lowerFirst('FRED');
     expect(str, 'fRED');
   });
-  test('with a Latin letters', () {
+  test('with Latin letters', () {
     String str = flodash.lowerFirst('Á É');
     expect(str, 'á É');
   });
