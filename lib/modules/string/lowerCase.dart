@@ -5,4 +5,5 @@ Function _lowerCase =
   return result + (index > 0 ? ' ' : '') + word.toLowerCase();
 });
 
+/// Converts `String`, as space separated words, to lower case.
 String lowerCase(String string) => _lowerCase(string);
