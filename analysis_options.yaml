@@ -1,0 +1,6 @@
+include: package:flutter_lints/flutter.yaml
+analyzer:
+  errors:
+    deprecated_member_use_from_same_package: ignore
+    file_names: ignore
+    unused_import: ignore
