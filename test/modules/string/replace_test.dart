@@ -12,9 +12,7 @@ void main() {
   test('should replace pattern with an empty string', () {
     String input = 'Hello, World!';
     String pattern = 'o';
-
     String result = flodash.replace(input, pattern, '');
-
     expect(result, equals('Hell, Wrld!'));
   });
   test('should replace pattern using a function', () {
