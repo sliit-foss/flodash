@@ -6,3 +6,4 @@ export 'lowerFirst.dart';
 export 'lowerCase.dart';
 export 'kebabCase.dart';
 export 'replace.dart';
+export 'upperFirst.dart';
