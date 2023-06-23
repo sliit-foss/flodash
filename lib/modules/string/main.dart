@@ -7,3 +7,5 @@ export 'lowerCase.dart';
 export 'kebabCase.dart';
 export 'replace.dart';
 export 'upperFirst.dart';
+export 'unescape.dart';
+export 'upperCase.dart';
