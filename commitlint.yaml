@@ -16,7 +16,7 @@ rules:
       - Test
       - Wip
   type-empty:
-    - 2
+    - 1
     - never    
   scope-enum:
     - 2
