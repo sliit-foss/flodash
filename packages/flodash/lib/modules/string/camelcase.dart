@@ -1,4 +1,3 @@
-import 'deburr.dart';
 import 'capitalize.dart';
 
 import '_helpers/main.dart' as helpers;
