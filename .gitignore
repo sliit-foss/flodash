@@ -9,7 +9,8 @@
 .history
 .svn/
 
-# VS Code
+# VS
+.vs
 .vscode
 
 # IntelliJ related

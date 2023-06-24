@@ -1,0 +1,17 @@
+name: enhanced_cloud_firestore
+description: A wrapper around the cloud firestore dart package with support for filtering sorting, limiting, error handling, and success scenarios
+version: 1.0.1
+repository: https://github.com/sliit-foss/enchanced_cloud_firestore
+
+environment:
+  sdk: ">=2.12.0 <3.7.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore: ^3.1.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
