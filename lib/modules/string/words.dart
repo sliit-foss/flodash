@@ -1,5 +1,6 @@
 import '_helpers/main.dart' as helpers;
 
+/// Splits `String` into an array of its words.
 List<String> words(
     {required String string, RegExp? pattern, bool guard = false}) {
   pattern = guard ? null : pattern;

@@ -1,5 +1,3 @@
-import '_helpers/main.dart' as helpers;
-
-Function _lowerFirst = helpers.createCaseFirst('toLowerCase');
-
-String lowerFirst(String string) => _lowerFirst(string);
+/// Converts the first character of `string` to lower case.
+String lowerFirst(String string) =>
+    string.isNotEmpty ? string[0].toLowerCase() + string.substring(1) : '';
