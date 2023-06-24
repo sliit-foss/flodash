@@ -8,4 +8,5 @@ Function _camelCase =
   return result + (index > 0 ? capitalize(word) : word);
 });
 
+/// Converts `string` to [camel case](https://en.wikipedia.org/wiki/CamelCase).
 String camelCase(String string) => _camelCase(string);
