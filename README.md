@@ -1,7 +1,11 @@
 # Flodash
 [![Pub](https://img.shields.io/pub/v/flodash.svg)](https://pub.dartlang.org/packages/flodash)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/andresaraujo/flodash/master/LICENSE)
-<br/><br/>
+
+## IMPORTANT !!!
+## This project has been migrated to the following [monorepo](https://github.com/sliit-foss/dart-cookbook) and will no longer be maintained here.
+
+<br/>
 
 This library is a dart implementation of the popular JavaScript library [lodash](https://lodash.com/). It is a collection of utility functions that make it easier to work with collections, objects, numbers, strings, etc.
 <br/><br/>
