@@ -9,4 +9,4 @@ export 'replace.dart';
 export 'upper_first.dart';
 export 'unescape.dart';
 export 'uppercase.dart';
-export 'trimStart.dart';
+export 'trim_start.dart';
